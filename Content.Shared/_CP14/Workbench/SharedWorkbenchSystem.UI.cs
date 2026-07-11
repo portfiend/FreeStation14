@@ -1,15 +1,15 @@
 using Content.Shared._CP14.Workbench;
 
-namespace Content.Server._CP14.Workbench;
+namespace Content.Shared._CP14.Workbench;
 
-public sealed partial class WorkbenchSystem
+public abstract partial class SharedWorkbenchSystem
 {
     private void OnCraft(Entity<WorkbenchComponent> entity, ref WorkbenchUiCraftMessage args)
     {
         if (!entity.Comp.Recipes.Contains(args.Recipe))
             return;
 
-        if (!_proto.TryIndex(args.Recipe, out var prototype))
+        if (!ProtoMan.TryIndex(args.Recipe, out var prototype))
             return;
 
         StartCraft(entity, args.Actor, prototype);
@@ -25,14 +25,14 @@ public sealed partial class WorkbenchSystem
         var recipes = new List<WorkbenchUiRecipesEntry>();
         foreach (var recipeId in entity.Comp.Recipes)
         {
-            if (!_proto.TryIndex(recipeId, out var indexedRecipe))
+            if (!ProtoMan.TryIndex(recipeId, out var indexedRecipe))
                 continue;
 
             var canCraft = true;
 
             foreach (var requirement in indexedRecipe.Requirements)
             {
-                if (!requirement.CheckRequirement(EntityManager, _proto, resources))
+                if (!requirement.CheckRequirement(EntityManager, ProtoMan, resources))
                 {
                     canCraft = false;
                     break;

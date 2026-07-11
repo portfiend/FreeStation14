@@ -1,8 +1,8 @@
 using Content.Shared.Placeable;
 
-namespace Content.Server._CP14.Workbench;
+namespace Content.Shared._CP14.Workbench;
 
-public sealed partial class WorkbenchSystem
+public abstract partial class SharedWorkbenchSystem
 {
     private void InitProviders()
     {

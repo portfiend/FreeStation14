@@ -1,9 +1,11 @@
-namespace Content.Server._CP14.Workbench;
+using Content.Shared._CP14.Workbench;
+
+namespace Content.Shared._CP14.Workbench;
 
 /// <summary>
 /// Provides resources to the workbench located on ItemPlacer
 /// </summary>
 [RegisterComponent]
-[Access(typeof(WorkbenchSystem))]
+[Access(typeof(SharedWorkbenchSystem))]
 public sealed partial class WorkbenchPlaceableProviderComponent : Component
 { }

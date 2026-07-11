@@ -3,13 +3,13 @@ using Content.Shared.Tag;
 using Robust.Shared.Audio;
 using Robust.Shared.Prototypes;
 
-namespace Content.Server._CP14.Workbench;
+namespace Content.Shared._CP14.Workbench;
 
 /// <summary>
 /// This entity can be used to craft other objects through the interface
 /// </summary>
 [RegisterComponent]
-[Access(typeof(WorkbenchSystem))]
+[Access(typeof(SharedWorkbenchSystem))]
 public sealed partial class WorkbenchComponent : Component
 {
     /// <summary>
