@@ -9,8 +9,8 @@ namespace Content.Server._CP14.Workbench;
 /// This entity can be used to craft other objects through the interface
 /// </summary>
 [RegisterComponent]
-[Access(typeof(CP14WorkbenchSystem))]
-public sealed partial class CP14WorkbenchComponent : Component
+[Access(typeof(WorkbenchSystem))]
+public sealed partial class WorkbenchComponent : Component
 {
     /// <summary>
     /// Crafting speed modifier on this workbench.
@@ -22,7 +22,7 @@ public sealed partial class CP14WorkbenchComponent : Component
     /// List of recipes available for crafting on this type of workbench
     /// </summary>
     [DataField]
-    public List<ProtoId<CP14WorkbenchRecipePrototype>> Recipes = new();
+    public List<ProtoId<WorkbenchRecipePrototype>> Recipes = new();
 
     /// <summary>
     /// Auto recipe list fill based on tags

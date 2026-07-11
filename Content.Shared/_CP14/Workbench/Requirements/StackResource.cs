@@ -7,7 +7,7 @@ namespace Content.Shared._CP14.Workbench.Requirements;
 /// <summary>
 ///     An ingredient requirement for a certain amount of entity stacks.
 /// </summary>
-public sealed partial class StackResource : CP14WorkbenchCraftRequirement
+public sealed partial class StackIngredientRequirement : WorkbenchCraftRequirement
 {
     [DataField(required: true)]
     public ProtoId<StackPrototype> Stack;

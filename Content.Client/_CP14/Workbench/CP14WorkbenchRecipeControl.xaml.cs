@@ -8,17 +8,17 @@ using Robust.Shared.Prototypes;
 namespace Content.Client._CP14.Workbench;
 
 [GenerateTypedNameReferences]
-public sealed partial class CP14WorkbenchRecipeControl : Control
+public sealed partial class WorkbenchRecipeControl : Control
 {
     [Dependency] private IEntityManager _entity = default!;
     [Dependency] private IPrototypeManager _prototype = default!;
 
-    public event Action<CP14WorkbenchUiRecipesEntry, CP14WorkbenchRecipePrototype>? OnSelect;
+    public event Action<WorkbenchUiRecipesEntry, WorkbenchRecipePrototype>? OnSelect;
 
-    private readonly CP14WorkbenchRecipePrototype _recipePrototype;
+    private readonly WorkbenchRecipePrototype _recipePrototype;
     private readonly bool _craftable;
 
-    public CP14WorkbenchRecipeControl(CP14WorkbenchUiRecipesEntry entry)
+    public WorkbenchRecipeControl(WorkbenchUiRecipesEntry entry)
     {
         RobustXamlLoader.Load(this);
         IoCManager.InjectDependencies(this);

@@ -2,14 +2,14 @@ using Content.Shared.Placeable;
 
 namespace Content.Server._CP14.Workbench;
 
-public sealed partial class CP14WorkbenchSystem
+public sealed partial class WorkbenchSystem
 {
     private void InitProviders()
     {
-        SubscribeLocalEvent<CP14WorkbenchPlaceableProviderComponent, CP14WorkbenchGetResourcesEvent>(OnGetResource);
+        SubscribeLocalEvent<WorkbenchPlaceableProviderComponent, WorkbenchGetResourcesEvent>(OnGetResource);
     }
 
-    private void OnGetResource(Entity<CP14WorkbenchPlaceableProviderComponent> ent, ref CP14WorkbenchGetResourcesEvent args)
+    private void OnGetResource(Entity<WorkbenchPlaceableProviderComponent> ent, ref WorkbenchGetResourcesEvent args)
     {
         if (!TryComp<ItemPlacerComponent>(ent, out var placer))
             return;
@@ -18,7 +18,7 @@ public sealed partial class CP14WorkbenchSystem
     }
 }
 
-public sealed class CP14WorkbenchGetResourcesEvent : EntityEventArgs
+public sealed class WorkbenchGetResourcesEvent : EntityEventArgs
 {
     public HashSet<EntityUid> Resources { get; private set; } = new();
 

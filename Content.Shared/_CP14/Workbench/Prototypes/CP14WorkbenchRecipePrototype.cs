@@ -7,8 +7,8 @@ namespace Content.Shared._CP14.Workbench.Prototypes;
 /// <summary>
 ///     Represents a crafting recipe that can be made at a workbench.
 /// </summary>
-[Prototype("CP14Recipe")]
-public sealed partial class CP14WorkbenchRecipePrototype : IPrototype
+[Prototype]
+public sealed partial class WorkbenchRecipePrototype : IPrototype
 {
     [IdDataField]
     public string ID { get; private set; } = default!;
@@ -38,7 +38,7 @@ public sealed partial class CP14WorkbenchRecipePrototype : IPrototype
     ///     If any of these are unmet, the option to craft the recipe is unavailable.
     /// </summary>
     [DataField(required: true)]
-    public List<CP14WorkbenchCraftRequirement> Requirements = new();
+    public List<WorkbenchCraftRequirement> Requirements = new();
 
     /// <summary>
     ///     States that must be fulfilled for this recipe to be craftable, but you can attempt anyway.
@@ -46,7 +46,7 @@ public sealed partial class CP14WorkbenchRecipePrototype : IPrototype
     ///     you experience a disastrous side effect.
     /// </summary>
     [DataField]
-    public List<CP14WorkbenchCraftCondition> Conditions = new();
+    public List<WorkbenchCraftCondition> Conditions = new();
 
     /// <summary>
     ///     The entity produced by this recipe.
@@ -64,7 +64,7 @@ public sealed partial class CP14WorkbenchRecipePrototype : IPrototype
     ///     The category that this entity belongs to - used for sorting and filtering.
     /// </summary>
     [DataField]
-    public ProtoId<CP14WorkbenchRecipeCategoryPrototype>? Category;
+    public ProtoId<WorkbenchRecipeCategoryPrototype>? Category;
 
     /// <summary>
     ///     Determines the order that this recipe will be listed in. Higher comes first.

@@ -13,7 +13,7 @@ using Robust.Shared.Random;
 
 namespace Content.Server._CP14.Workbench;
 
-public sealed partial class CP14WorkbenchSystem : CP14SharedWorkbenchSystem
+public sealed partial class WorkbenchSystem : SharedWorkbenchSystem
 {
     [Dependency] private AudioSystem _audio = default!;
     [Dependency] private DoAfterSystem _doAfter = default!;
@@ -28,20 +28,20 @@ public sealed partial class CP14WorkbenchSystem : CP14SharedWorkbenchSystem
         base.Initialize();
         InitProviders();
 
-        SubscribeLocalEvent<CP14WorkbenchComponent, MapInitEvent>(OnMapInit);
+        SubscribeLocalEvent<WorkbenchComponent, MapInitEvent>(OnMapInit);
 
-        SubscribeLocalEvent<CP14WorkbenchComponent, ItemPlacedEvent>(OnItemPlaced);
-        SubscribeLocalEvent<CP14WorkbenchComponent, ItemRemovedEvent>(OnItemRemoved);
+        SubscribeLocalEvent<WorkbenchComponent, ItemPlacedEvent>(OnItemPlaced);
+        SubscribeLocalEvent<WorkbenchComponent, ItemRemovedEvent>(OnItemRemoved);
 
-        SubscribeLocalEvent<CP14WorkbenchComponent, BeforeActivatableUIOpenEvent>(OnBeforeUIOpen);
-        SubscribeLocalEvent<CP14WorkbenchComponent, CP14WorkbenchUiCraftMessage>(OnCraft);
+        SubscribeLocalEvent<WorkbenchComponent, BeforeActivatableUIOpenEvent>(OnBeforeUIOpen);
+        SubscribeLocalEvent<WorkbenchComponent, WorkbenchUiCraftMessage>(OnCraft);
 
-        SubscribeLocalEvent<CP14WorkbenchComponent, CP14CraftDoAfterEvent>(OnCraftFinished);
+        SubscribeLocalEvent<WorkbenchComponent, WorkbenchCraftDoAfterEvent>(OnCraftFinished);
     }
 
-    private void OnMapInit(Entity<CP14WorkbenchComponent> ent, ref MapInitEvent args)
+    private void OnMapInit(Entity<WorkbenchComponent> ent, ref MapInitEvent args)
     {
-        foreach (var recipe in _proto.EnumeratePrototypes<CP14WorkbenchRecipePrototype>())
+        foreach (var recipe in _proto.EnumeratePrototypes<WorkbenchRecipePrototype>())
         {
             if (ent.Comp.Recipes.Contains(recipe))
                 continue;
@@ -53,22 +53,22 @@ public sealed partial class CP14WorkbenchSystem : CP14SharedWorkbenchSystem
         }
     }
 
-    private void OnItemRemoved(Entity<CP14WorkbenchComponent> ent, ref ItemRemovedEvent args)
+    private void OnItemRemoved(Entity<WorkbenchComponent> ent, ref ItemRemovedEvent args)
     {
         UpdateUIRecipes(ent);
     }
 
-    private void OnItemPlaced(Entity<CP14WorkbenchComponent> ent, ref ItemPlacedEvent args)
+    private void OnItemPlaced(Entity<WorkbenchComponent> ent, ref ItemPlacedEvent args)
     {
         UpdateUIRecipes(ent);
     }
 
-    private void OnBeforeUIOpen(Entity<CP14WorkbenchComponent> ent, ref BeforeActivatableUIOpenEvent args)
+    private void OnBeforeUIOpen(Entity<WorkbenchComponent> ent, ref BeforeActivatableUIOpenEvent args)
     {
         UpdateUIRecipes(ent);
     }
 
-    private void OnCraftFinished(Entity<CP14WorkbenchComponent> ent, ref CP14CraftDoAfterEvent args)
+    private void OnCraftFinished(Entity<WorkbenchComponent> ent, ref WorkbenchCraftDoAfterEvent args)
     {
         if (args.Cancelled || args.Handled)
             return;
@@ -76,7 +76,7 @@ public sealed partial class CP14WorkbenchSystem : CP14SharedWorkbenchSystem
         if (!_proto.TryIndex(args.Recipe, out var recipe))
             return;
 
-        var getResource = new CP14WorkbenchGetResourcesEvent();
+        var getResource = new WorkbenchGetResourcesEvent();
         RaiseLocalEvent(ent.Owner, getResource);
 
         var resources = getResource.Resources;
@@ -124,11 +124,11 @@ public sealed partial class CP14WorkbenchSystem : CP14SharedWorkbenchSystem
         args.Handled = true;
     }
 
-    private void StartCraft(Entity<CP14WorkbenchComponent> workbench,
+    private void StartCraft(Entity<WorkbenchComponent> workbench,
         EntityUid user,
-        CP14WorkbenchRecipePrototype recipe)
+        WorkbenchRecipePrototype recipe)
     {
-        var craftDoAfter = new CP14CraftDoAfterEvent
+        var craftDoAfter = new WorkbenchCraftDoAfterEvent
         {
             Recipe = recipe.ID,
         };
@@ -149,7 +149,7 @@ public sealed partial class CP14WorkbenchSystem : CP14SharedWorkbenchSystem
         _audio.PlayPvs(recipe.OverrideCraftSound ?? workbench.Comp.CraftSound, workbench);
     }
 
-    private bool CanCraftRecipe(CP14WorkbenchRecipePrototype recipe, HashSet<EntityUid> entities, EntityUid user)
+    private bool CanCraftRecipe(WorkbenchRecipePrototype recipe, HashSet<EntityUid> entities, EntityUid user)
     {
         foreach (var req in recipe.Requirements)
         {

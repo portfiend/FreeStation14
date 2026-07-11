@@ -2,9 +2,9 @@ using Content.Shared._CP14.Workbench;
 
 namespace Content.Server._CP14.Workbench;
 
-public sealed partial class CP14WorkbenchSystem
+public sealed partial class WorkbenchSystem
 {
-    private void OnCraft(Entity<CP14WorkbenchComponent> entity, ref CP14WorkbenchUiCraftMessage args)
+    private void OnCraft(Entity<WorkbenchComponent> entity, ref WorkbenchUiCraftMessage args)
     {
         if (!entity.Comp.Recipes.Contains(args.Recipe))
             return;
@@ -15,14 +15,14 @@ public sealed partial class CP14WorkbenchSystem
         StartCraft(entity, args.Actor, prototype);
     }
 
-    private void UpdateUIRecipes(Entity<CP14WorkbenchComponent> entity)
+    private void UpdateUIRecipes(Entity<WorkbenchComponent> entity)
     {
-        var getResource = new CP14WorkbenchGetResourcesEvent();
+        var getResource = new WorkbenchGetResourcesEvent();
         RaiseLocalEvent(entity, getResource);
 
         var resources = getResource.Resources;
 
-        var recipes = new List<CP14WorkbenchUiRecipesEntry>();
+        var recipes = new List<WorkbenchUiRecipesEntry>();
         foreach (var recipeId in entity.Comp.Recipes)
         {
             if (!_proto.TryIndex(recipeId, out var indexedRecipe))
@@ -39,11 +39,11 @@ public sealed partial class CP14WorkbenchSystem
                 }
             }
 
-            var entry = new CP14WorkbenchUiRecipesEntry(recipeId, canCraft);
+            var entry = new WorkbenchUiRecipesEntry(recipeId, canCraft);
 
             recipes.Add(entry);
         }
 
-        _userInterface.SetUiState(entity.Owner, CP14WorkbenchUiKey.Key, new CP14WorkbenchUiRecipesState(recipes));
+        _userInterface.SetUiState(entity.Owner, WorkbenchUiKey.Key, new WorkbenchUiRecipesState(recipes));
     }
 }

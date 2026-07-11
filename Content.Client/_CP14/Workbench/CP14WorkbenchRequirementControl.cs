@@ -8,14 +8,14 @@ using Robust.Shared.Prototypes;
 namespace Content.Client._CP14.Workbench;
 
 [GenerateTypedNameReferences]
-public sealed partial class CP14WorkbenchRequirementControl : Control
+public sealed partial class WorkbenchRequirementControl : Control
 {
     [Dependency] private IEntityManager _entity = default!;
     [Dependency] private IPrototypeManager _proto = default!;
 
     private readonly SpriteSystem _sprite;
 
-    public CP14WorkbenchRequirementControl()
+    public WorkbenchRequirementControl()
     {
         RobustXamlLoader.Load(this);
         IoCManager.InjectDependencies(this);
@@ -23,7 +23,7 @@ public sealed partial class CP14WorkbenchRequirementControl : Control
         _sprite = _entity.System<SpriteSystem>();
     }
 
-    public CP14WorkbenchRequirementControl(CP14WorkbenchCraftRequirement requirement) : this()
+    public WorkbenchRequirementControl(WorkbenchCraftRequirement requirement) : this()
     {
         Name.Text = requirement.GetRequirementTitle(_proto);
 

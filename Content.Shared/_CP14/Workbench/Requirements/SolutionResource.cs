@@ -8,7 +8,7 @@ namespace Content.Shared._CP14.Workbench.Requirements;
 /// <summary>
 ///     An ingredient requirement for a certain reagent.
 /// </summary>
-public sealed partial class SolutionResource : CP14WorkbenchCraftRequirement
+public sealed partial class SolutionIngredientRequirement : WorkbenchCraftRequirement
 {
     [DataField(required: true)]
     public ProtoId<ReagentPrototype> Reagent = default!;

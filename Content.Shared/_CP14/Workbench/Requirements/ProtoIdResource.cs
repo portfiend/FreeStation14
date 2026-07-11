@@ -5,7 +5,7 @@ namespace Content.Shared._CP14.Workbench.Requirements;
 /// <summary>
 ///     An ingredient requirement for a specific entity.
 /// </summary>
-public sealed partial class ProtoIdResource : CP14WorkbenchCraftRequirement
+public sealed partial class ProtoIdIngredientRequirement : WorkbenchCraftRequirement
 {
     [DataField(required: true)]
     public EntProtoId ProtoId;

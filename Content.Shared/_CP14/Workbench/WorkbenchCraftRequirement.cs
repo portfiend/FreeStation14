@@ -10,12 +10,12 @@ namespace Content.Shared._CP14.Workbench;
 /// </summary>
 /// <remarks>
 ///     If this requirement is not met, then the "craft" button should be unavailable.
-///     Similar to <see cref="CP14WorkbenchCraftCondition"/>, but unlike requirements,
+///     Similar to <see cref="WorkbenchCraftCondition"/>, but unlike requirements,
 ///     you can still click the "craft" button even if Conditions are not met.
 /// </remarks>
 [ImplicitDataDefinitionForInheritors]
 [MeansImplicitUse]
-public abstract partial class CP14WorkbenchCraftRequirement
+public abstract partial class WorkbenchCraftRequirement
 {
     /// <summary>
     /// Here a check is made that the recipe as a whole can be fulfilled at the current moment.

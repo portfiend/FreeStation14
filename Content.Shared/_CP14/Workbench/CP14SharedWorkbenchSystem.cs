@@ -6,14 +6,14 @@ using Robust.Shared.Serialization;
 namespace Content.Shared._CP14.Workbench;
 
 // TODO: Prediction
-public abstract class CP14SharedWorkbenchSystem : EntitySystem
+public abstract class SharedWorkbenchSystem : EntitySystem
 { }
 
 [Serializable, NetSerializable]
-public sealed partial class CP14CraftDoAfterEvent : DoAfterEvent
+public sealed partial class WorkbenchCraftDoAfterEvent : DoAfterEvent
 {
     [DataField(required: true)]
-    public ProtoId<CP14WorkbenchRecipePrototype> Recipe = default!;
+    public ProtoId<WorkbenchRecipePrototype> Recipe = default!;
 
     public override DoAfterEvent Clone() => this;
 }

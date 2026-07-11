@@ -11,7 +11,7 @@ using Robust.Shared.Prototypes;
 namespace Content.Client._CP14.Workbench;
 
 [GenerateTypedNameReferences]
-public sealed partial class CP14WorkbenchWindow : DefaultWindow
+public sealed partial class WorkbenchWindow : DefaultWindow
 {
     private const int AllCategoryId = -1;
 
@@ -20,23 +20,23 @@ public sealed partial class CP14WorkbenchWindow : DefaultWindow
     [Dependency] private IPrototypeManager _prototype = default!;
     [Dependency] private ILogManager _log = default!;
 
-    public event Action<CP14WorkbenchUiRecipesEntry>? OnCraft;
+    public event Action<WorkbenchUiRecipesEntry>? OnCraft;
 
     /// <summary>
     /// Used for category dropdown filtering.
     /// </summary>
     private readonly Dictionary<int, LocId> _categoryIndexes = new();
 
-    private Dictionary<LocId, List<CP14WorkbenchUiRecipesEntry>> _categories = new();
-    private List<CP14WorkbenchUiRecipesEntry> _uncategorized = new();
+    private Dictionary<LocId, List<WorkbenchUiRecipesEntry>> _categories = new();
+    private List<WorkbenchUiRecipesEntry> _uncategorized = new();
 
-    private CP14WorkbenchUiRecipesState? _cachedState;
-    private CP14WorkbenchUiRecipesEntry? _selectedEntry;
+    private WorkbenchUiRecipesState? _cachedState;
+    private WorkbenchUiRecipesEntry? _selectedEntry;
     private string _searchFilter = string.Empty;
 
     private ISawmill Sawmill { get; init; }
 
-    public CP14WorkbenchWindow()
+    public WorkbenchWindow()
     {
         RobustXamlLoader.Load(this);
         IoCManager.InjectDependencies(this);
@@ -88,7 +88,7 @@ public sealed partial class CP14WorkbenchWindow : DefaultWindow
             RecipeSelectNull();
     }
 
-    private void AddRecipeListToGrid(List<CP14WorkbenchUiRecipesEntry> category, GridContainer gridContainer)
+    private void AddRecipeListToGrid(List<WorkbenchUiRecipesEntry> category, GridContainer gridContainer)
     {
         foreach (var entry in category)
         {
@@ -104,14 +104,14 @@ public sealed partial class CP14WorkbenchWindow : DefaultWindow
             if (!ProcessSearchCategoryFilter(indexedEntry))
                 continue;
 
-            var control = new CP14WorkbenchRecipeControl(entry);
+            var control = new WorkbenchRecipeControl(entry);
             control.OnSelect += RecipeSelect;
 
             gridContainer.AddChild(control);
         }
     }
 
-    public void UpdateState(CP14WorkbenchUiRecipesState recipesState)
+    public void UpdateState(WorkbenchUiRecipesState recipesState)
     {
         if (_player.LocalEntity is null)
             return;
@@ -129,14 +129,14 @@ public sealed partial class CP14WorkbenchWindow : DefaultWindow
             .OrderByDescending(e => e.Craftable)
             .ThenByDescending(e =>
             {
-                if (!_prototype.TryIndex(e.ProtoId, out CP14WorkbenchRecipePrototype? recipe))
+                if (!_prototype.TryIndex(e.ProtoId, out WorkbenchRecipePrototype? recipe))
                     return 0;
                 return recipe.Priority;
             })
             .ThenBy(e =>
             {
-                if (!_prototype.TryIndex(e.ProtoId, out CP14WorkbenchRecipePrototype? recipe) ||
-                    !_prototype.TryIndex(recipe.Category, out CP14WorkbenchRecipeCategoryPrototype? category))
+                if (!_prototype.TryIndex(e.ProtoId, out WorkbenchRecipePrototype? recipe) ||
+                    !_prototype.TryIndex(recipe.Category, out WorkbenchRecipeCategoryPrototype? category))
                     return string.Empty;
                 return category.ID;
             });
@@ -154,7 +154,7 @@ public sealed partial class CP14WorkbenchWindow : DefaultWindow
 
             if (!_categories.TryGetValue(indexedCategory.Name, out var entries))
             {
-                entries = new List<CP14WorkbenchUiRecipesEntry>();
+                entries = new List<WorkbenchUiRecipesEntry>();
                 _categories[indexedCategory.Name] = entries;
             }
 
@@ -165,7 +165,7 @@ public sealed partial class CP14WorkbenchWindow : DefaultWindow
         var sortedCategories = _categories
             .OrderByDescending(c =>
             {
-                var categoryProto = _prototype.EnumeratePrototypes<CP14WorkbenchRecipeCategoryPrototype>()
+                var categoryProto = _prototype.EnumeratePrototypes<WorkbenchRecipeCategoryPrototype>()
                     .FirstOrDefault(p => p.Name == c.Key);
                 return categoryProto?.Priority ?? 0;
             })
@@ -204,7 +204,7 @@ public sealed partial class CP14WorkbenchWindow : DefaultWindow
         UpdateRecipesVisibility();
     }
 
-    private bool ProcessSearchFilter(CP14WorkbenchUiRecipesEntry entry, CP14WorkbenchRecipePrototype indexedEntry)
+    private bool ProcessSearchFilter(WorkbenchUiRecipesEntry entry, WorkbenchRecipePrototype indexedEntry)
     {
         if (_searchFilter == string.Empty)
             return true;
@@ -217,7 +217,7 @@ public sealed partial class CP14WorkbenchWindow : DefaultWindow
         return false;
     }
 
-    private bool ProcessSearchCategoryFilter(CP14WorkbenchRecipePrototype indexedEntry)
+    private bool ProcessSearchCategoryFilter(WorkbenchRecipePrototype indexedEntry)
     {
         // If we are searching through all categories, we simply skip the current filter
         if (OptionCategories.SelectedId == AllCategoryId)
@@ -241,7 +241,7 @@ public sealed partial class CP14WorkbenchWindow : DefaultWindow
         return indexedCategory.Name == selectedCategory;
     }
 
-    private void RecipeSelect(CP14WorkbenchUiRecipesState recipesState)
+    private void RecipeSelect(WorkbenchUiRecipesState recipesState)
     {
         foreach (var entry in recipesState.Recipes)
         {
@@ -250,7 +250,7 @@ public sealed partial class CP14WorkbenchWindow : DefaultWindow
         }
     }
 
-    private void RecipeSelect(CP14WorkbenchUiRecipesEntry cachedEntry)
+    private void RecipeSelect(WorkbenchUiRecipesEntry cachedEntry)
     {
         if (_cachedState is null)
             return;
@@ -264,7 +264,7 @@ public sealed partial class CP14WorkbenchWindow : DefaultWindow
         RecipeSelect(cachedEntry, _prototype.Index(cachedEntry.ProtoId));
     }
 
-    private void RecipeSelect(CP14WorkbenchUiRecipesEntry entry, CP14WorkbenchRecipePrototype recipe)
+    private void RecipeSelect(WorkbenchUiRecipesEntry entry, WorkbenchRecipePrototype recipe)
     {
         _selectedEntry = entry;
 
@@ -280,7 +280,7 @@ public sealed partial class CP14WorkbenchWindow : DefaultWindow
 
         foreach (var requirement in recipe.Requirements)
         {
-            ItemRequirements.AddChild(new CP14WorkbenchRequirementControl(requirement));
+            ItemRequirements.AddChild(new WorkbenchRequirementControl(requirement));
         }
 
         CraftButton.Disabled = !entry.Craftable;
