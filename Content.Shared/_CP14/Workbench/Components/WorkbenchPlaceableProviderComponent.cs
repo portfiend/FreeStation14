@@ -1,4 +1,4 @@
-using Content.Shared._CP14.Workbench;
+using Content.Shared._CP14.Workbench.EntitySystems;
 
 namespace Content.Shared._CP14.Workbench;
 

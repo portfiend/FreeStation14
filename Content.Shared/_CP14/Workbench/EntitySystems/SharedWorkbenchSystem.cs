@@ -9,7 +9,7 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Serialization;
 
-namespace Content.Shared._CP14.Workbench;
+namespace Content.Shared._CP14.Workbench.EntitySystems;
 
 // TODO: Prediction
 

@@ -1,6 +1,6 @@
 using Content.Shared.Placeable;
 
-namespace Content.Shared._CP14.Workbench;
+namespace Content.Shared._CP14.Workbench.EntitySystems;
 
 public abstract partial class SharedWorkbenchSystem
 {
