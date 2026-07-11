@@ -21,7 +21,6 @@ public abstract partial class WorkbenchCraftRequirement
     /// Here a check is made that the recipe as a whole can be fulfilled at the current moment.
     /// Do not add anything that affects gameplay here, and only perform checks here.
     /// </summary>
-    /// <returns></returns>
     public abstract bool CheckRequirement(IEntityManager entManager,
         IPrototypeManager protoManager,
         HashSet<EntityUid> placedEntities);

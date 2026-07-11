@@ -17,12 +17,20 @@ namespace Content.Shared._CP14.Workbench;
 [MeansImplicitUse]
 public abstract partial class WorkbenchCraftCondition
 {
+    /// <summary>
+    ///     Check whether or not this condition can be met.
+    ///     Nothing should be transformed in this function - this is just for checks.
+    /// </summary>
     public abstract bool CheckCondition(
         EntityManager entManager,
         IPrototypeManager protoManager,
         EntityUid workbench,
         EntityUid user);
 
+    /// <summary>
+    ///     The mechanical effects of a recipe being crafted under this condition.
+    ///     This is where resources are spent, items are deleted, et cetera.
+    /// </summary>
     public virtual void PostCraft(
         EntityManager entManager,
         IPrototypeManager protoManager,
@@ -30,6 +38,9 @@ public abstract partial class WorkbenchCraftCondition
         EntityUid user)
     { }
 
+    /// <summary>
+    ///     What happens if you attempt to craft the recipe when this condition is unmet.
+    /// </summary>
     public abstract void FailedEffect(
         EntityManager entManager,
         IPrototypeManager protoManager,
@@ -37,8 +48,8 @@ public abstract partial class WorkbenchCraftCondition
         EntityUid user);
 
     /// <summary>
-    /// This text will be displayed in the description of the craft conditions. Write something
-    /// like ‘The workbench must be filled to 100% mana.’ here
+    /// This text will be displayed in the description of the craft conditions.
+    /// Write something like 'The workbench must be filled to 100% mana.' here
     /// </summary>
     public virtual string GetConditionTitle(
         EntityManager entManager,

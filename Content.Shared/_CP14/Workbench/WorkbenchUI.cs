@@ -10,6 +10,10 @@ public enum WorkbenchUiKey
     Key,
 }
 
+/// <summary>
+///     Sent from client to server when requesting to start crafting a recipe.
+/// </summary>
+/// <param name="recipe">The recipe to craft.</param>
 [Serializable, NetSerializable]
 public sealed class WorkbenchUiCraftMessage(ProtoId<WorkbenchRecipePrototype> recipe)
     : BoundUserInterfaceMessage
@@ -17,13 +21,21 @@ public sealed class WorkbenchUiCraftMessage(ProtoId<WorkbenchRecipePrototype> re
     public readonly ProtoId<WorkbenchRecipePrototype> Recipe = recipe;
 }
 
-
+/// <summary>
+///     Sent from server to client to populate the workbench UI with recipes.
+/// </summary>
+/// <param name="recipes"></param>
 [Serializable, NetSerializable]
 public sealed class WorkbenchUiRecipesState(List<WorkbenchUiRecipesEntry> recipes) : BoundUserInterfaceState
 {
     public readonly List<WorkbenchUiRecipesEntry> Recipes = recipes;
 }
 
+/// <summary>
+///     Represents a single recipe and whether or not it can be crafted.
+/// </summary>
+/// <param name="protoId">The ID of the recipe.</param>
+/// <param name="craftable">Whether or not the recipe can be crafted.</param>
 [Serializable, NetSerializable]
 public readonly struct WorkbenchUiRecipesEntry(ProtoId<WorkbenchRecipePrototype> protoId, bool craftable)
     : IEquatable<WorkbenchUiRecipesEntry>
@@ -44,6 +56,16 @@ public readonly struct WorkbenchUiRecipesEntry(ProtoId<WorkbenchRecipePrototype>
     public bool Equals(WorkbenchUiRecipesEntry other)
     {
         return ProtoId.Id == other.ProtoId.Id;
+    }
+
+    public static bool operator ==(WorkbenchUiRecipesEntry left, WorkbenchUiRecipesEntry right)
+    {
+        return left.Equals(right);
+    }
+
+    public static bool operator !=(WorkbenchUiRecipesEntry left, WorkbenchUiRecipesEntry right)
+    {
+        return !left.Equals(right);
     }
 
     public override int GetHashCode()
