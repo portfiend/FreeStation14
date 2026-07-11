@@ -10,9 +10,15 @@ namespace Content.Shared._CP14.Workbench.Requirements;
 /// </summary>
 public sealed partial class MaterialIngredientRequirement : WorkbenchCraftRequirement
 {
+    /// <summary>
+    ///     The required material.
+    /// </summary>
     [DataField(required: true)]
     public ProtoId<MaterialPrototype> Material;
 
+    /// <summary>
+    ///     How much of this material is required.
+    /// </summary>
     [DataField]
     public int Count = 1;
 

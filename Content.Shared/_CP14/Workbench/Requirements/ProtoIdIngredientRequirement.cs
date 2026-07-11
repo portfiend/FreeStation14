@@ -7,9 +7,15 @@ namespace Content.Shared._CP14.Workbench.Requirements;
 /// </summary>
 public sealed partial class ProtoIdIngredientRequirement : WorkbenchCraftRequirement
 {
+    /// <summary>
+    ///     The entity required.
+    /// </summary>
     [DataField(required: true)]
     public EntProtoId ProtoId;
 
+    /// <summary>
+    ///     How much of this entity is required.
+    /// </summary>
     [DataField]
     public int Count = 1;
 

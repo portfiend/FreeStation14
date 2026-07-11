@@ -9,9 +9,15 @@ namespace Content.Shared._CP14.Workbench.Requirements;
 /// </summary>
 public sealed partial class StackIngredientRequirement : WorkbenchCraftRequirement
 {
+    /// <summary>
+    ///     The entity stack required.
+    /// </summary>
     [DataField(required: true)]
     public ProtoId<StackPrototype> Stack;
 
+    /// <summary>
+    ///     How many stacks are needed.
+    /// </summary>
     [DataField]
     public int Count = 1;
 

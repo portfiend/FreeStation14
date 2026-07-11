@@ -10,20 +10,34 @@ namespace Content.Shared._CP14.Workbench.Requirements;
 /// </summary>
 public sealed partial class SolutionIngredientRequirement : WorkbenchCraftRequirement
 {
+    /// <summary>
+    ///     The reagent required.
+    /// </summary>
     [DataField(required: true)]
     public ProtoId<ReagentPrototype> Reagent = default!;
 
     /// <summary>
-    /// How much impurity from other reagents is allowed?
+    ///     How much impurity from other reagents is allowed?
     /// </summary>
-    [DataField(required: true)]
-    public float Purity = 1f;
+    /// <remarks>
+    ///     You can think of this value as, "what percent of the solution must be this reagent?"
+    ///     If a recipe requires 0.4 purity, for instance, then the reagent must be at least 40% of the
+    ///     beaker's solution contents.
+    /// </remarks>
+    [DataField]
+    public float Purity = 0f;
 
+    /// <summary>
+    ///     How much of this reagent is required.
+    /// </summary>
     [DataField(required: true)]
     public FixedPoint2 Amount = 1f;
 
+    /// <summary>
+    ///     The entity to use for the requirement's icon.
+    /// </summary>
     [DataField]
-    public EntProtoId DummyEntityIcon = "Beaker";
+    public EntProtoId? DummyEntityIcon = "Beaker";
 
     public override bool CheckRequirement(IEntityManager entManager,
         IPrototypeManager protoManager,
@@ -96,8 +110,9 @@ public sealed partial class SolutionIngredientRequirement : WorkbenchCraftRequir
 
     public override EntityPrototype? GetRequirementEntityView(IPrototypeManager protoManager)
     {
-        if (!protoManager.TryIndex(DummyEntityIcon, out var indexedEnt))
+        if (DummyEntityIcon == null || !protoManager.TryIndex(DummyEntityIcon, out var indexedEnt))
             return null;
+
         return indexedEnt;
     }
 
