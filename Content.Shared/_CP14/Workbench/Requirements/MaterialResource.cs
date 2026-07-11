@@ -5,6 +5,9 @@ using Robust.Shared.Utility;
 
 namespace Content.Shared._CP14.Workbench.Requirements;
 
+/// <summary>
+///     An ingredient requirement for a certain amount of total materials.
+/// </summary>
 public sealed partial class MaterialResource : CP14WorkbenchCraftRequirement
 {
     [DataField(required: true)]

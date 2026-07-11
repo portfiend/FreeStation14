@@ -6,5 +6,4 @@ namespace Content.Server._CP14.Workbench;
 [RegisterComponent]
 [Access(typeof(CP14WorkbenchSystem))]
 public sealed partial class CP14WorkbenchPlaceableProviderComponent : Component
-{
-}
+{ }

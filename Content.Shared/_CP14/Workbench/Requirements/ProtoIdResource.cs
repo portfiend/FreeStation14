@@ -2,6 +2,9 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Shared._CP14.Workbench.Requirements;
 
+/// <summary>
+///     An ingredient requirement for a specific entity.
+/// </summary>
 public sealed partial class ProtoIdResource : CP14WorkbenchCraftRequirement
 {
     [DataField(required: true)]

@@ -5,6 +5,9 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Shared._CP14.Workbench.Requirements;
 
+/// <summary>
+///     An ingredient requirement for a certain reagent.
+/// </summary>
 public sealed partial class SolutionResource : CP14WorkbenchCraftRequirement
 {
     [DataField(required: true)]

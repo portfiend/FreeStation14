@@ -5,9 +5,9 @@ using Robust.Shared.Serialization;
 
 namespace Content.Shared._CP14.Workbench;
 
+// TODO: Prediction
 public abstract class CP14SharedWorkbenchSystem : EntitySystem
-{
-}
+{ }
 
 [Serializable, NetSerializable]
 public sealed partial class CP14CraftDoAfterEvent : DoAfterEvent
