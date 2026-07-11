@@ -25,9 +25,6 @@
     interfaces:
       enum.CP14WorkbenchUiKey.Key:
         type: CP14WorkbenchBoundUserInterface
-  - type: Damageable
-    damageContainer: Inorganic
-    damageModifierSet: CP14Wood
   - type: Destructible
     thresholds:
     - trigger:
@@ -49,11 +46,6 @@
       - !type:PlaySoundBehavior
         sound:
           collection: WoodDestroy
-      - !type:SpawnEntitiesBehavior
-        spawn:
-          CP14WoodenPlanks1:
-            min: 1
-            max: 2
   - type: PlaceableSurface
   - type: CP14WorkbenchPlaceableProvider
   - type: ItemPlacer
@@ -84,7 +76,6 @@
 - type: entity
   parent:
   - CP14BaseWorkbench
-  - CP14BaseFlammable
   id: CP14Workbench
   name: workbench
   description: Table for the production of various basic tools.
@@ -96,12 +87,6 @@
   - type: FootstepModifier
     footstepSoundCollection:
       collection: FootstepWood
-  - type: FireVisuals
-    sprite: _CP14/Effects/fire.rsi
-    normalState: full
-  - type: Construction
-    graph: CP14Workbench
-    node: CP14Workbench
   - type: CP14Workbench
     recipeTags:
     - CP14RecipeWorkbench
@@ -110,7 +95,6 @@
   id: CP14WorkbenchCooking
   parent:
   - CP14BaseWorkbench
-  - CP14BaseFlammable
   name: cooking table
   suffix: Workbench
   description: A table to work with food. Time to cook!
@@ -119,12 +103,7 @@
     state: cooking_table
   - type: Icon
     state: cooking_table
-  - type: Construction
-    graph: CP14WorkbenchCooking
-    node: CP14WorkbenchCooking
   - type: CP14Workbench
-    craftSound:
-      collection: CP14Sawing #TODO
     recipeTags:
     - CP14RecipeCooking
 
@@ -132,7 +111,6 @@
   id: CP14WorkbenchSewing
   parent:
   - CP14BaseWorkbench
-  - CP14BaseFlammable
   name: sewing table
   suffix: Clothing Workbench
   description: A table with embroidery tools to create different clothing and materials.
@@ -141,12 +119,7 @@
     state: sewing_table
   - type: Icon
     state: sewing_table
-  - type: Construction
-    graph: CP14WorkbenchSewing
-    node: CP14WorkbenchSewing
   - type: CP14Workbench
-    craftSound:
-      collection: CP14Sawing #TODO
     recipeTags:
     - CP14RecipeSewing
 
@@ -154,7 +127,6 @@
   id: CP14WorkbenchLeather
   parent:
   - CP14BaseWorkbench
-  - CP14BaseFlammable
   name: tanner table
   suffix: Leather Workbench
   description: Table for leather processing and creation of leather goods.
@@ -163,11 +135,6 @@
     state: tanner_table
   - type: Icon
     state: tanner_table
-  - type: Construction
-    graph: CP14WorkbenchLeather
-    node: CP14WorkbenchLeather
   - type: CP14Workbench
-    craftSound:
-      collection: CP14Sawing # TODO CP14Leather?
     recipeTags:
     - CP14RecipeLeatherWorking
