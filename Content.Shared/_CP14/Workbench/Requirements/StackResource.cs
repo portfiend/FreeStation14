@@ -1,9 +1,3 @@
-/*
- * This file is sublicensed under MIT License
- * https://github.com/space-wizards/space-station-14/blob/master/LICENSE.TXT
- */
-
-using Content.Shared._CP14.Trading.Systems;
 using Content.Shared.Stacks;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
@@ -60,24 +54,10 @@ public sealed partial class StackResource : CP14WorkbenchCraftRequirement
             if (stack.Count - count <= 0)
                 entManager.DeleteEntity(placedEntity);
             else
-                stackSystem.SetCount(placedEntity, stack.Count - count, stack);
+                stackSystem.SetCount((placedEntity, stack), stack.Count - count);
 
             requiredCount -= count;
         }
-    }
-
-    public override double GetPrice(IEntityManager entManager,
-        IPrototypeManager protoManager)
-    {
-        if (!protoManager.TryIndex(Stack, out var indexedStack))
-            return 0;
-
-        if (!protoManager.TryIndex(indexedStack.Spawn, out var indexedProto))
-            return 0;
-
-        var priceSys = entManager.System<CP14SharedStationEconomySystem>();
-
-        return priceSys.GetEstimatedPrice(indexedProto) * Count;
     }
 
     public override string GetRequirementTitle(IPrototypeManager protoManager)

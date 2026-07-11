@@ -1,8 +1,3 @@
-/*
- * This file is sublicensed under MIT License
- * https://github.com/space-wizards/space-station-14/blob/master/LICENSE.TXT
- */
-
 using Content.Shared._CP14.Workbench.Prototypes;
 using Content.Shared.Tag;
 using Robust.Shared.Audio;
@@ -42,5 +37,5 @@ public sealed partial class CP14WorkbenchComponent : Component
     /// Played during crafting. Can be overwritten by the crafting sound of a specific recipe.
     /// </summary>
     [DataField]
-    public SoundSpecifier CraftSound = new SoundCollectionSpecifier("CP14Hammering");
+    public SoundSpecifier CraftSound = new SoundCollectionSpecifier("PrinterPrint");
 }

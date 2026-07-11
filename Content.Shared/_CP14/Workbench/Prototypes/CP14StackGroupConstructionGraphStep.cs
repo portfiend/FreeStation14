@@ -1,8 +1,3 @@
-/*
- * This file is sublicensed under MIT License
- * https://github.com/space-wizards/space-station-14/blob/master/LICENSE.TXT
- */
-
 using System.Diagnostics.CodeAnalysis;
 using Content.Shared.Construction;
 using Content.Shared.Construction.Steps;
@@ -58,7 +53,7 @@ public sealed partial class CP14StackGroupConstructionGraphStep : EntityInsertCo
         return new ConstructionGuideEntry()
         {
             Localization = "construction-presenter-material-step",
-            Arguments = new (string, object)[]{("amount", Amount), ("material", Loc.GetString(group.Name))},
+            Arguments = new (string, object)[] { ("amount", Amount), ("material", Loc.GetString(group.Name)) },
             Icon = firstStack != null ? proto.Index(firstStack.Value).Icon : SpriteSpecifier.Invalid,
         };
     }

@@ -1,12 +1,6 @@
-/*
- * This file is sublicensed under MIT License
- * https://github.com/space-wizards/space-station-14/blob/master/LICENSE.TXT
- */
-
 using System.Numerics;
 using Content.Server.DoAfter;
 using Content.Server.Popups;
-using Content.Shared._CP14.Skill;
 using Content.Shared._CP14.Workbench;
 using Content.Shared._CP14.Workbench.Prototypes;
 using Content.Shared.DoAfter;
@@ -21,14 +15,13 @@ namespace Content.Server._CP14.Workbench;
 
 public sealed partial class CP14WorkbenchSystem : CP14SharedWorkbenchSystem
 {
-    [Dependency] private readonly AudioSystem _audio = default!;
-    [Dependency] private readonly EntityLookupSystem _lookup = default!;
-    [Dependency] private readonly DoAfterSystem _doAfter = default!;
-    [Dependency] private readonly IPrototypeManager _proto = default!;
-    [Dependency] private readonly PopupSystem _popup = default!;
-    [Dependency] private readonly UserInterfaceSystem _userInterface = default!;
-    [Dependency] private readonly SharedTransformSystem _transform = default!;
-    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private AudioSystem _audio = default!;
+    [Dependency] private DoAfterSystem _doAfter = default!;
+    [Dependency] private IPrototypeManager _proto = default!;
+    [Dependency] private PopupSystem _popup = default!;
+    [Dependency] private UserInterfaceSystem _userInterface = default!;
+    [Dependency] private SharedTransformSystem _transform = default!;
+    [Dependency] private IRobustRandom _random = default!;
 
     public override void Initialize()
     {
@@ -158,11 +151,6 @@ public sealed partial class CP14WorkbenchSystem : CP14SharedWorkbenchSystem
 
     private bool CanCraftRecipe(CP14WorkbenchRecipePrototype recipe, HashSet<EntityUid> entities, EntityUid user)
     {
-        foreach (var skill in recipe.RequiredSkills)
-        {
-            if (!_skill.HaveSkill(user, skill))
-                return false;
-        }
         foreach (var req in recipe.Requirements)
         {
             if (!req.CheckRequirement(EntityManager, _proto, entities))

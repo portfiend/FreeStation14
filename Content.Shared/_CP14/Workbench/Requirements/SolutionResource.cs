@@ -20,7 +20,7 @@ public sealed partial class SolutionResource : CP14WorkbenchCraftRequirement
     public FixedPoint2 Amount = 1f;
 
     [DataField]
-    public EntProtoId DummyEntityIcon = "CP14LiquidDropDummy";
+    public EntProtoId DummyEntityIcon = "Beaker";
 
     public override bool CheckRequirement(IEntityManager entManager,
         IPrototypeManager protoManager,
@@ -78,14 +78,6 @@ public sealed partial class SolutionResource : CP14WorkbenchCraftRequirement
                 return;
             }
         }
-    }
-
-    public override double GetPrice(IEntityManager entManager, IPrototypeManager protoManager)
-    {
-        if (!protoManager.TryIndex(Reagent, out var indexedReagent))
-            return 0;
-
-        return indexedReagent.PricePerUnit * (double)Amount;
     }
 
     public override string GetRequirementTitle(IPrototypeManager protoManager)

@@ -1,8 +1,3 @@
-/*
- * This file is sublicensed under MIT License
- * https://github.com/space-wizards/space-station-14/blob/master/LICENSE.TXT
- */
-
 using Content.Shared.Materials;
 using Content.Shared.Stacks;
 using Robust.Shared.Prototypes;
@@ -88,23 +83,12 @@ public sealed partial class MaterialResource : CP14WorkbenchCraftRequirement
                     if (newStackCount <= 0)
                         entManager.DeleteEntity(placedEntity);
                     else
-                        stackSystem.SetCount(placedEntity, newStackCount, stack);
+                        stackSystem.SetCount((placedEntity, stack), newStackCount);
 
                     requiredCount -= countToRemove;
                 }
             }
         }
-    }
-
-    public override double GetPrice(IEntityManager entManager,
-        IPrototypeManager protoManager)
-    {
-        if (protoManager.TryIndex(Material, out var indexedMaterial))
-        {
-            return indexedMaterial.Price * Count;
-        }
-
-        return 0;
     }
 
     public override string GetRequirementTitle(IPrototypeManager protoManager)

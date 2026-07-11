@@ -1,8 +1,3 @@
-/*
- * This file is sublicensed under MIT License
- * https://github.com/space-wizards/space-station-14/blob/master/LICENSE.TXT
- */
-
 using JetBrains.Annotations;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
@@ -29,12 +24,6 @@ public abstract partial class CP14WorkbenchCraftRequirement
         HashSet<EntityUid> placedEntities)
     {
 
-    }
-
-    public virtual double GetPrice(IEntityManager entManager,
-        IPrototypeManager protoManager)
-    {
-        return 0;
     }
 
     /// <summary>

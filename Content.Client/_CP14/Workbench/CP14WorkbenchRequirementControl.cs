@@ -15,8 +15,8 @@ namespace Content.Client._CP14.Workbench;
 [GenerateTypedNameReferences]
 public sealed partial class CP14WorkbenchRequirementControl : Control
 {
-    [Dependency] private readonly IEntityManager _entity = default!;
-    [Dependency] private readonly IPrototypeManager _proto = default!;
+    [Dependency] private IEntityManager _entity = default!;
+    [Dependency] private IPrototypeManager _proto = default!;
 
     private readonly SpriteSystem _sprite;
 
