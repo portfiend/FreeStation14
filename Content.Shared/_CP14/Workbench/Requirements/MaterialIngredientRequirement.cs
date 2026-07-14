@@ -42,13 +42,9 @@ public sealed partial class MaterialIngredientRequirement : WorkbenchCraftRequir
                     continue;
 
                 if (stack is null)
-                {
                     count += value;
-                }
                 else
-                {
                     count += value * stack.Count;
-                }
             }
         }
 
@@ -106,9 +102,11 @@ public sealed partial class MaterialIngredientRequirement : WorkbenchCraftRequir
     public override string GetRequirementTitle(IPrototypeManager protoManager)
     {
         if (!protoManager.TryIndex(Material, out var indexedMaterial))
-            return "Error material";
+            return string.Empty;
 
-        return $"{Loc.GetString(indexedMaterial.Name)} x{Count}";
+        return Loc.GetString("workbench-material-requirement-hint",
+            ("ingredient", indexedMaterial.Name),
+            ("count", Count));
     }
 
     public override SpriteSpecifier? GetRequirementTexture(IPrototypeManager protoManager)

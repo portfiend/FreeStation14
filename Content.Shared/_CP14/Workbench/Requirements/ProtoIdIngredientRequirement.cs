@@ -55,9 +55,11 @@ public sealed partial class ProtoIdIngredientRequirement : WorkbenchCraftRequire
     public override string GetRequirementTitle(IPrototypeManager protoManager)
     {
         if (!protoManager.TryIndex(ProtoId, out var indexedProto))
-            return "Error entity";
+            return string.Empty;
 
-        return $"{indexedProto.Name} x{Count}";
+        return Loc.GetString("workbench-protoid-requirement-hint",
+            ("ingredient", indexedProto.Name),
+            ("count", Count));
     }
 
     public override EntityPrototype? GetRequirementEntityView(IPrototypeManager protoManager)

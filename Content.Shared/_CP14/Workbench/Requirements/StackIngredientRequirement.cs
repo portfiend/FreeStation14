@@ -73,9 +73,11 @@ public sealed partial class StackIngredientRequirement : WorkbenchCraftRequireme
     public override string GetRequirementTitle(IPrototypeManager protoManager)
     {
         if (!protoManager.TryIndex(Stack, out var indexedStack))
-            return "Error stack";
+            return string.Empty;
 
-        return $"{Loc.GetString(indexedStack.Name)} x{Count}";
+        return Loc.GetString("workbench-material-requirement-hint",
+            ("ingredient", indexedStack.Name),
+            ("count", Count));
     }
 
     public override SpriteSpecifier? GetRequirementTexture(IPrototypeManager protoManager)

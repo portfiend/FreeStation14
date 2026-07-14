@@ -105,7 +105,7 @@ public sealed partial class SolutionIngredientRequirement : WorkbenchCraftRequir
         if (!protoManager.TryIndex(Reagent, out var indexedReagent))
             return string.Empty;
 
-        return Loc.GetString("cp14-workbench-reagent-req",
+        return Loc.GetString("workbench-reagent-requirement-hint",
             ("reagent", indexedReagent.LocalizedName),
             ("count", Amount),
             ("purity", Purity * 100));

@@ -125,7 +125,7 @@ public abstract partial class SharedWorkbenchSystem : EntitySystem
 
         if (!CanCraftRecipe(recipe, context))
         {
-            _popup.PopupEntity(Loc.GetString("cp14-workbench-cant-craft"), ent, args.User);
+            _popup.PopupEntity(Loc.GetString("workbench-cant-craft-error"), ent, args.User);
             return;
         }
 
