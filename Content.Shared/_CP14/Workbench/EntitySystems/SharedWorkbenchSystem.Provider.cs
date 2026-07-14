@@ -18,6 +18,9 @@ public abstract partial class SharedWorkbenchSystem
     }
 }
 
+/// <summary>
+///     Raised on the workbench when it is attempting to get all usable crafting ingredients.
+/// </summary>
 public sealed class WorkbenchGetResourcesEvent : EntityEventArgs
 {
     public HashSet<EntityUid> Resources { get; private set; } = new();
