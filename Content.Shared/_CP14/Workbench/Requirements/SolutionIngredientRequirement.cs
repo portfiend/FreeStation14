@@ -1,3 +1,4 @@
+using Content.Shared._CP14.Workbench.EntitySystems;
 using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.Chemistry.Reagent;
 using Content.Shared.FixedPoint;
@@ -41,10 +42,10 @@ public sealed partial class SolutionIngredientRequirement : WorkbenchCraftRequir
 
     public override bool CheckRequirement(IEntityManager entManager,
         IPrototypeManager protoManager,
-        HashSet<EntityUid> placedEntities)
+        WorkbenchCraftingContext context)
     {
         var solutionSys = entManager.System<SharedSolutionContainerSystem>();
-        foreach (var ent in placedEntities)
+        foreach (var ent in context.Ingredients)
         {
             if (!solutionSys.TryGetDrawableSolution(ent, out var soln, out var solution))
                 continue;
@@ -70,10 +71,12 @@ public sealed partial class SolutionIngredientRequirement : WorkbenchCraftRequir
         return false;
     }
 
-    public override void PostCraft(IEntityManager entManager, IPrototypeManager protoManager, HashSet<EntityUid> placedEntities)
+    public override void PostCraft(IEntityManager entManager,
+        IPrototypeManager protoManager,
+        WorkbenchCraftingContext context)
     {
         var solutionSys = entManager.System<SharedSolutionContainerSystem>();
-        foreach (var ent in placedEntities)
+        foreach (var ent in context.Ingredients)
         {
             if (!solutionSys.TryGetDrawableSolution(ent, out var soln, out var solution))
                 continue;

@@ -1,3 +1,4 @@
+using Content.Shared._CP14.Workbench.EntitySystems;
 using JetBrains.Annotations;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
@@ -24,8 +25,7 @@ public abstract partial class WorkbenchCraftCondition
     public abstract bool CheckCondition(
         EntityManager entManager,
         IPrototypeManager protoManager,
-        EntityUid workbench,
-        EntityUid user);
+        WorkbenchCraftingContext context);
 
     /// <summary>
     ///     The mechanical effects of a recipe being crafted under this condition.
@@ -34,8 +34,7 @@ public abstract partial class WorkbenchCraftCondition
     public virtual void PostCraft(
         EntityManager entManager,
         IPrototypeManager protoManager,
-        EntityUid workbench,
-        EntityUid user)
+        WorkbenchCraftingContext context)
     { }
 
     /// <summary>
@@ -44,8 +43,7 @@ public abstract partial class WorkbenchCraftCondition
     public abstract void FailedEffect(
         EntityManager entManager,
         IPrototypeManager protoManager,
-        EntityUid workbench,
-        EntityUid user);
+        WorkbenchCraftingContext context);
 
     /// <summary>
     /// This text will be displayed in the description of the craft conditions.
@@ -54,8 +52,7 @@ public abstract partial class WorkbenchCraftCondition
     public virtual string GetConditionTitle(
         EntityManager entManager,
         IPrototypeManager protoManager,
-        EntityUid workbench,
-        EntityUid user)
+        WorkbenchCraftingContext context)
     {
         return string.Empty;
     }

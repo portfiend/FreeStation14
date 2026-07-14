@@ -1,3 +1,4 @@
+using Content.Shared._CP14.Workbench.EntitySystems;
 using Robust.Shared.Prototypes;
 
 namespace Content.Shared._CP14.Workbench.Requirements;
@@ -21,18 +22,20 @@ public sealed partial class ProtoIdIngredientRequirement : WorkbenchCraftRequire
 
     public override bool CheckRequirement(IEntityManager entManager,
         IPrototypeManager protoManager,
-        HashSet<EntityUid> placedEntities)
+        WorkbenchCraftingContext context)
     {
-        var indexedIngredients = IndexIngredients(entManager, placedEntities);
+        var indexedIngredients = IndexIngredients(entManager, context.Ingredients);
 
         return indexedIngredients.TryGetValue(ProtoId, out var availableQuantity) && availableQuantity >= Count;
     }
 
-    public override void PostCraft(IEntityManager entManager, IPrototypeManager protoManager, HashSet<EntityUid> placedEntities)
+    public override void PostCraft(IEntityManager entManager,
+        IPrototypeManager protoManager,
+        WorkbenchCraftingContext context)
     {
         var requiredCount = Count;
 
-        foreach (var placedEntity in placedEntities)
+        foreach (var placedEntity in context.Ingredients)
         {
             if (!entManager.TryGetComponent<MetaDataComponent>(placedEntity, out var metaData))
                 continue;

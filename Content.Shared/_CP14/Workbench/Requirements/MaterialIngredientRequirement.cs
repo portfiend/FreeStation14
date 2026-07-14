@@ -1,3 +1,4 @@
+using Content.Shared._CP14.Workbench.EntitySystems;
 using Content.Shared.Materials;
 using Content.Shared.Stacks;
 using Robust.Shared.Prototypes;
@@ -25,10 +26,10 @@ public sealed partial class MaterialIngredientRequirement : WorkbenchCraftRequir
     public override bool CheckRequirement(
         IEntityManager entManager,
         IPrototypeManager protoManager,
-        HashSet<EntityUid> placedEntities)
+        WorkbenchCraftingContext context)
     {
         var count = 0;
-        foreach (var ent in placedEntities)
+        foreach (var ent in context.Ingredients)
         {
             if (!entManager.TryGetComponent<PhysicalCompositionComponent>(ent, out var material))
                 continue;
@@ -57,12 +58,14 @@ public sealed partial class MaterialIngredientRequirement : WorkbenchCraftRequir
         return true;
     }
 
-    public override void PostCraft(IEntityManager entManager, IPrototypeManager protoManager, HashSet<EntityUid> placedEntities)
+    public override void PostCraft(IEntityManager entManager,
+        IPrototypeManager protoManager,
+        WorkbenchCraftingContext context)
     {
         var stackSystem = entManager.System<SharedStackSystem>();
-
         var requiredCount = Count;
-        foreach (var placedEntity in placedEntities)
+
+        foreach (var placedEntity in context.Ingredients)
         {
             if (!entManager.TryGetComponent<PhysicalCompositionComponent>(placedEntity, out var material))
                 continue;

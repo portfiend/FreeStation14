@@ -1,3 +1,4 @@
+using Content.Shared._CP14.Workbench.EntitySystems;
 using JetBrains.Annotations;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
@@ -23,7 +24,7 @@ public abstract partial class WorkbenchCraftRequirement
     /// </summary>
     public abstract bool CheckRequirement(IEntityManager entManager,
         IPrototypeManager protoManager,
-        HashSet<EntityUid> placedEntities);
+        WorkbenchCraftingContext context);
 
     /// <summary>
     /// An event that is triggered after crafting. This is the mechanical effect of this
@@ -31,7 +32,7 @@ public abstract partial class WorkbenchCraftRequirement
     /// </summary>
     public virtual void PostCraft(IEntityManager entManager,
         IPrototypeManager protoManager,
-        HashSet<EntityUid> placedEntities)
+        WorkbenchCraftingContext context)
     { }
 
     /// <summary>

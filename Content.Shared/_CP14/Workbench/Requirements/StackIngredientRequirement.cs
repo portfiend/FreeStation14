@@ -1,3 +1,4 @@
+using Content.Shared._CP14.Workbench.EntitySystems;
 using Content.Shared.Stacks;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
@@ -23,10 +24,10 @@ public sealed partial class StackIngredientRequirement : WorkbenchCraftRequireme
 
     public override bool CheckRequirement(IEntityManager entManager,
         IPrototypeManager protoManager,
-        HashSet<EntityUid> placedEntities)
+        WorkbenchCraftingContext context)
     {
         var count = 0;
-        foreach (var ent in placedEntities)
+        foreach (var ent in context.Ingredients)
         {
             if (!entManager.TryGetComponent<StackComponent>(ent, out var stack))
                 continue;
@@ -45,12 +46,12 @@ public sealed partial class StackIngredientRequirement : WorkbenchCraftRequireme
 
     public override void PostCraft(IEntityManager entManager,
         IPrototypeManager protoManager,
-        HashSet<EntityUid> placedEntities)
+        WorkbenchCraftingContext context)
     {
         var stackSystem = entManager.System<SharedStackSystem>();
 
         var requiredCount = Count;
-        foreach (var placedEntity in placedEntities)
+        foreach (var placedEntity in context.Ingredients)
         {
             if (!entManager.TryGetComponent<StackComponent>(placedEntity, out var stack))
                 continue;

@@ -71,11 +71,11 @@ public abstract partial class SharedWorkbenchSystem : EntitySystem
         UpdateUIRecipes(ent);
     }
 
-    private bool CanCraftRecipe(WorkbenchRecipePrototype recipe, HashSet<EntityUid> entities)
+    private bool CanCraftRecipe(WorkbenchRecipePrototype recipe, WorkbenchCraftingContext context)
     {
         foreach (var req in recipe.Requirements)
         {
-            if (!req.CheckRequirement(EntityManager, ProtoMan, entities))
+            if (!req.CheckRequirement(EntityManager, ProtoMan, context))
                 return false;
         }
 
@@ -118,9 +118,11 @@ public abstract partial class SharedWorkbenchSystem : EntitySystem
         var getResource = new WorkbenchGetResourcesEvent();
         RaiseLocalEvent(ent.Owner, getResource);
 
-        var resources = getResource.Resources;
+        var context = new WorkbenchCraftingContext(User: args.User,
+            Workbench: ent.Owner,
+            Ingredients: getResource.Resources);
 
-        if (!CanCraftRecipe(recipe, resources))
+        if (!CanCraftRecipe(recipe, context))
         {
             _popup.PopupEntity(Loc.GetString("cp14-workbench-cant-craft"), ent, args.User);
             return;
@@ -130,17 +132,17 @@ public abstract partial class SharedWorkbenchSystem : EntitySystem
         var passConditions = true;
         foreach (var condition in recipe.Conditions)
         {
-            if (!condition.CheckCondition(EntityManager, ProtoMan, ent, args.User))
+            if (!condition.CheckCondition(EntityManager, ProtoMan, context))
             {
-                condition.FailedEffect(EntityManager, ProtoMan, ent, args.User);
+                condition.FailedEffect(EntityManager, ProtoMan, context);
                 passConditions = false;
             }
-            condition.PostCraft(EntityManager, ProtoMan, ent, args.User);
+            condition.PostCraft(EntityManager, ProtoMan, context);
         }
 
         foreach (var req in recipe.Requirements)
         {
-            req.PostCraft(EntityManager, ProtoMan, resources);
+            req.PostCraft(EntityManager, ProtoMan, context);
         }
 
         if (passConditions)
@@ -181,4 +183,25 @@ public sealed partial class WorkbenchCraftDoAfterEvent : DoAfterEvent
     {
         return this;
     }
+}
+
+/// <summary>
+///     A list of shared parameters for methods involving workbench crafting.
+/// </summary>
+public record WorkbenchCraftingContext(EntityUid? User, EntityUid Workbench, HashSet<EntityUid> Ingredients)
+{
+    /// <summary>
+    ///     The entity initiating this craft operation.
+    /// </summary>
+    public EntityUid? User = User;
+
+    /// <summary>
+    ///     The workbench entity.
+    /// </summary>
+    public EntityUid Workbench = Workbench;
+
+    /// <summary>
+    ///     A list of valid, usable crafting ingredients.
+    /// </summary>
+    public HashSet<EntityUid> Ingredients = Ingredients;
 }
