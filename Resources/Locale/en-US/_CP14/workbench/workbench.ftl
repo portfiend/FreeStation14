@@ -1,8 +1,13 @@
-cp14-workbench-ui-title = Item creation
+workbench-ui-window-title = Workbench
+workbench-ui-craft-button = Craft
+workbench-ui-requirement-list-header = Requirements
+workbench-cant-craft-error = Failed to craft recipe!
 
-cp14-workbench-craft = Craft
-cp14-workbench-recipe-list = Recipe:
-
-cp14-workbench-cant-craft = Craft failed!
-
-cp14-workbench-reagent-req = {$count}u {$reagent} with {$purity}%+ purity
+workbench-protoid-requirement-hint = {$ingredient} x{$count}
+workbench-material-requirement-hint = {$ingredient} x{$count}
+workbench-stack-requirement-hint = {$ingredient} x{$count}
+workbench-reagent-requirement-hint = {$count}u {$reagent}{ $purity ->
+        [0] {""}
+        [100] {" "}with {$purity}% purity
+       *[other] {" "}with at least {$purity}% purity
+    }
