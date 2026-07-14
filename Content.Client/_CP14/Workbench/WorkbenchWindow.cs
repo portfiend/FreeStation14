@@ -16,7 +16,6 @@ public sealed partial class WorkbenchWindow : DefaultWindow
     private const int AllCategoryId = -1;
 
     [Dependency] private IPlayerManager _player = default!;
-    [Dependency] private IEntityManager _entManager = default!;
     [Dependency] private IPrototypeManager _prototype = default!;
     [Dependency] private ILogManager _log = default!;
 
@@ -25,12 +24,12 @@ public sealed partial class WorkbenchWindow : DefaultWindow
     /// <summary>
     /// Used for category dropdown filtering.
     /// </summary>
-    private readonly Dictionary<int, LocId> _categoryIndexes = new();
+    private readonly Dictionary<int, ProtoId<WorkbenchRecipeCategoryPrototype>> _categoryIndexes = new();
+    private HashSet<WorkbenchUiRecipesEntry> _cachedRecipes = new();
 
-    private Dictionary<LocId, List<WorkbenchUiRecipesEntry>> _categories = new();
+    private List<WorkbenchUiRecipeCategory> _categories = new();
     private List<WorkbenchUiRecipesEntry> _uncategorized = new();
 
-    private WorkbenchUiRecipesState? _cachedState;
     private WorkbenchUiRecipesEntry? _selectedEntry;
     private string _searchFilter = string.Empty;
 
@@ -50,16 +49,21 @@ public sealed partial class WorkbenchWindow : DefaultWindow
 
     private void UpdateRecipesVisibility()
     {
-        if (_cachedState is null)
-            return;
-
         CraftsContainer.RemoveAllChildren();
 
-        if (_uncategorized.Count > 0 && OptionCategories.SelectedId == AllCategoryId)
+        if (_cachedRecipes.Count == 0)
+            return;
+
+        var hasIndex = _categoryIndexes.TryGetValue(OptionCategories.SelectedId, out var selectedCategory);
+        var isAll = OptionCategories.SelectedId == AllCategoryId;
+
+        if (_uncategorized.Count > 0 && isAll)
         {
-            var uncategorizedGridContainer = new GridContainer();
-            uncategorizedGridContainer.Columns = 5;
-            uncategorizedGridContainer.VerticalExpand = true;
+            var uncategorizedGridContainer = new GridContainer
+            {
+                Columns = 5,
+                VerticalExpand = true
+            };
 
             CraftsContainer.AddChild(uncategorizedGridContainer);
             AddRecipeListToGrid(_uncategorized, uncategorizedGridContainer);
@@ -67,24 +71,27 @@ public sealed partial class WorkbenchWindow : DefaultWindow
 
         foreach (var category in _categories)
         {
-            if (_categoryIndexes.TryGetValue(OptionCategories.SelectedId, out var selectedCategory) &&
-                category.Key != selectedCategory)
+            if (hasIndex && category.ID != selectedCategory)
                 continue;
 
-            var categoryLabel = new RichTextLabel();
-            categoryLabel.Margin = new Thickness(5);
-            categoryLabel.Text = Loc.GetString(category.Key);
+            var categoryLabel = new RichTextLabel
+            {
+                Margin = new Thickness(5),
+                Text = category.Name
+            };
             CraftsContainer.AddChild(categoryLabel);
 
-            var gridContainer = new GridContainer();
-            gridContainer.Columns = 5;
-            gridContainer.VerticalExpand = true;
+            var gridContainer = new GridContainer
+            {
+                Columns = 5,
+                VerticalExpand = true
+            };
             CraftsContainer.AddChild(gridContainer);
 
-            AddRecipeListToGrid(category.Value, gridContainer);
+            AddRecipeListToGrid(category.Recipes, gridContainer);
         }
 
-        if (_selectedEntry is not null && !_cachedState.Recipes.Contains(_selectedEntry.Value))
+        if (_selectedEntry is not null && !_cachedRecipes.Contains(_selectedEntry.Value))
             RecipeSelectNull();
     }
 
@@ -111,21 +118,20 @@ public sealed partial class WorkbenchWindow : DefaultWindow
         }
     }
 
-    public void UpdateState(WorkbenchUiRecipesState recipesState)
+    public void UpdateRecipes(List<WorkbenchUiRecipesEntry> recipes)
     {
         if (_player.LocalEntity is null)
             return;
 
-        _cachedState = recipesState;
-
+        _cachedRecipes = recipes.ToHashSet();
         _categoryIndexes.Clear();
         _categories.Clear();
         _uncategorized.Clear();
         OptionCategories.Clear();
         OptionCategories.AddItem(Loc.GetString("workbench-recipe-category-all"), AllCategoryId);
 
-        // First, we sort all the recipes by priority and category.
-        var sortedRecipes = recipesState.Recipes
+        // Sort all recipes by priority and category.
+        var sortedRecipes = recipes
             .OrderByDescending(e => e.Craftable)
             .ThenByDescending(e =>
             {
@@ -141,6 +147,8 @@ public sealed partial class WorkbenchWindow : DefaultWindow
                 return category.ID;
             });
 
+        // Assign recipes to uncategorized and categorized lists.
+        var unsortedCategories = new Dictionary<ProtoId<WorkbenchRecipeCategoryPrototype>, List<WorkbenchUiRecipesEntry>>();
         foreach (var entry in sortedRecipes)
         {
             if (!_prototype.TryIndex(entry.ProtoId, out var indexedEntry))
@@ -152,32 +160,35 @@ public sealed partial class WorkbenchWindow : DefaultWindow
                 continue;
             }
 
-            if (!_categories.TryGetValue(indexedCategory.Name, out var entries))
+            if (!unsortedCategories.TryGetValue(indexedCategory.ID, out var entries))
             {
                 entries = new List<WorkbenchUiRecipesEntry>();
-                _categories[indexedCategory.Name] = entries;
+                unsortedCategories[indexedCategory.ID] = entries;
             }
 
             entries.Add(entry);
         }
 
-        // Sort categories by priority
-        var sortedCategories = _categories
-            .OrderByDescending(c =>
+        // Sort categories by priority.
+        _categories = unsortedCategories
+            .Select(c =>
             {
-                var categoryProto = _prototype.EnumeratePrototypes<WorkbenchRecipeCategoryPrototype>()
-                    .FirstOrDefault(p => p.Name == c.Key);
-                return categoryProto?.Priority ?? 0;
-            })
-            .ToList();
+                _prototype.TryIndex(c.Key, out var category);
+                var id = c.Key;
+                var priority = category?.Priority ?? 0;
+                var name = category != null ? Loc.GetString(category.Name) : c.Key.ToString();
+                var recipes = c.Value;
 
-        _categories = sortedCategories.ToDictionary(pair => pair.Key, pair => pair.Value);
+                return new WorkbenchUiRecipeCategory(id, priority, name, recipes);
+            })
+            .OrderByDescending(c => c.Priority)
+            .ToList();
 
         var count = 0;
         foreach (var category in _categories)
         {
-            OptionCategories.AddItem(Loc.GetString(category.Key), count);
-            _categoryIndexes.Add(count, category.Key);
+            OptionCategories.AddItem(category.Name, count);
+            _categoryIndexes.Add(count, category.ID);
             count++;
         }
 
@@ -238,30 +249,7 @@ public sealed partial class WorkbenchWindow : DefaultWindow
             return true;
         }
 
-        return indexedCategory.Name == selectedCategory;
-    }
-
-    private void RecipeSelect(WorkbenchUiRecipesState recipesState)
-    {
-        foreach (var entry in recipesState.Recipes)
-        {
-            RecipeSelect(entry, _prototype.Index(entry.ProtoId));
-            break;
-        }
-    }
-
-    private void RecipeSelect(WorkbenchUiRecipesEntry cachedEntry)
-    {
-        if (_cachedState is null)
-            return;
-
-        if (_cachedState.Recipes.Contains(cachedEntry))
-        {
-            Sawmill.Warning($"The selected cache option {cachedEntry} isn't found in recipes");
-            return;
-        }
-
-        RecipeSelect(cachedEntry, _prototype.Index(cachedEntry.ProtoId));
+        return indexedCategory.ID == selectedCategory;
     }
 
     private void RecipeSelect(WorkbenchUiRecipesEntry entry, WorkbenchRecipePrototype recipe)
@@ -295,5 +283,16 @@ public sealed partial class WorkbenchWindow : DefaultWindow
         ItemDescription.Text = string.Empty;
         ItemRequirements.RemoveAllChildren();
         CraftButton.Disabled = true;
+    }
+
+    private sealed partial class WorkbenchUiRecipeCategory(ProtoId<WorkbenchRecipeCategoryPrototype> id,
+        int priority,
+        string name,
+        List<WorkbenchUiRecipesEntry> recipes)
+    {
+        public ProtoId<WorkbenchRecipeCategoryPrototype> ID = id;
+        public int Priority = priority;
+        public string Name = name;
+        public List<WorkbenchUiRecipesEntry> Recipes = recipes;
     }
 }

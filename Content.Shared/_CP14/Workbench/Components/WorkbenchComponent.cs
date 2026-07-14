@@ -24,14 +24,22 @@ public sealed partial class WorkbenchComponent : Component
     /// <summary>
     /// List of recipes available for crafting on this type of workbench
     /// </summary>
-    [DataField, AutoNetworkedField]
-    public List<ProtoId<WorkbenchRecipePrototype>> Recipes = new();
+    [DataField]
+    [Access(typeof(SharedWorkbenchSystem), Friend = AccessPermissions.Read, Other = AccessPermissions.None)]
+    public HashSet<ProtoId<WorkbenchRecipePrototype>> Recipes = new();
 
     /// <summary>
     /// Auto recipe list fill based on tags
     /// </summary>
     [DataField]
-    public List<ProtoId<TagPrototype>> RecipeTags = new();
+    [Access(typeof(SharedWorkbenchSystem), Other = AccessPermissions.None)]
+    public HashSet<ProtoId<TagPrototype>> RecipeTags = new();
+
+    /// <summary>
+    ///     All recipes from datafields. This is the "true" recipe list.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public List<ProtoId<WorkbenchRecipePrototype>> CombinedRecipes = new();
 
     /// <summary>
     /// Played during crafting. Can be overwritten by the crafting sound of a specific recipe.

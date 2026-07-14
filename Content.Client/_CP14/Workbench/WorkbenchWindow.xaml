@@ -64,7 +64,7 @@
                             <controls:HLine Color="#404040" Thickness="5" Margin="0 5" />
 
                             <!-- Craft button -->
-                            <Button Name="CraftButton" Text="{Loc 'workbench-ui-craft-button'}" />
+                            <Button Name="CraftButton" Disabled="True" Text="{Loc 'workbench-ui-craft-button'}" />
                         </BoxContainer>
                     </PanelContainer>
                 </ScrollContainer>

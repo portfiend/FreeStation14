@@ -7,7 +7,7 @@ public abstract partial class SharedWorkbenchSystem
 {
     private void OnCraft(Entity<WorkbenchComponent> entity, ref WorkbenchUiCraftMessage args)
     {
-        if (!entity.Comp.Recipes.Contains(args.Recipe))
+        if (!entity.Comp.CombinedRecipes.Contains(args.Recipe))
             return;
 
         if (!ProtoMan.TryIndex(args.Recipe, out var prototype))

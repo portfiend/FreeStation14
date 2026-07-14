@@ -28,7 +28,7 @@ public sealed partial class WorkbenchRequirementControl : Control
     {
         var title = new FormattedMessage();
         title.AddMarkupPermissive(requirement.GetRequirementTitle(_proto));
-        Name.SetMessage(title);
+        NameLabel.SetMessage(title);
 
         var texture = requirement.GetRequirementTexture(_proto);
         if (texture is not null)

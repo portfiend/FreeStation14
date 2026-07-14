@@ -33,30 +33,49 @@ public abstract partial class SharedWorkbenchSystem : EntitySystem
         InitProviders();
 
         SubscribeLocalEvent<WorkbenchComponent, MapInitEvent>(OnMapInit);
-
         SubscribeLocalEvent<WorkbenchComponent, ItemPlacedEvent>(OnItemPlaced);
         SubscribeLocalEvent<WorkbenchComponent, ItemRemovedEvent>(OnItemRemoved);
-
         SubscribeLocalEvent<WorkbenchComponent, BeforeActivatableUIOpenEvent>(OnBeforeUIOpen);
         SubscribeLocalEvent<WorkbenchComponent, WorkbenchUiCraftMessage>(OnCraft);
-
         SubscribeLocalEvent<WorkbenchComponent, WorkbenchCraftDoAfterEvent>(OnCraftFinished);
+
+        ProtoMan.PrototypesReloaded += OnPrototypesReloaded;
     }
 
     private void OnMapInit(Entity<WorkbenchComponent> ent, ref MapInitEvent args)
     {
-        foreach (var recipe in ProtoMan.EnumeratePrototypes<WorkbenchRecipePrototype>())
+        PopulateRecipes(ent);
+    }
+
+    private void OnPrototypesReloaded(PrototypesReloadedEventArgs args)
+    {
+        if (args.WasModified<WorkbenchRecipePrototype>() || args.WasModified<WorkbenchRecipeCategoryPrototype>())
+            CacheRecipes();
+    }
+
+    private void CacheRecipes()
+    {
+        var query = EntityQueryEnumerator<WorkbenchComponent>();
+        while (query.MoveNext(out var uid, out var workbench))
+            PopulateRecipes((uid, workbench));
+    }
+
+    private void PopulateRecipes(Entity<WorkbenchComponent> ent)
+    {
+        var recipes = ent.Comp.Recipes;
+        if (ent.Comp.RecipeTags.Count > 0)
         {
-            if (ent.Comp.Recipes.Contains(recipe))
-                continue;
+            var taggedRecipes = ProtoMan.EnumeratePrototypes<WorkbenchRecipePrototype>()
+                .Where(p => ent.Comp.RecipeTags.Contains(p.Tag))
+                .Select(p => (ProtoId<WorkbenchRecipePrototype>)p.ID)
+                .ToHashSet();
 
-            if (!ent.Comp.RecipeTags.Contains(recipe.Tag))
-                continue;
-
-            ent.Comp.Recipes.Add(recipe);
+            recipes.UnionWith(taggedRecipes);
         }
 
+        ent.Comp.CombinedRecipes = recipes.ToList();
         Dirty(ent);
+        UpdateUIRecipes(ent);
     }
 
     private void OnItemRemoved(Entity<WorkbenchComponent> ent, ref ItemRemovedEvent args)
