@@ -23,7 +23,7 @@ public sealed partial class ToolRequirement : WorkbenchCraftRequirement
     ///     Hands will always be checked!
     /// </summary>
     [DataField]
-    public SlotFlags SlotFlags = SlotFlags.NONE;
+    public SlotFlags SlotFlags = SlotFlags.PREVENTEQUIP;
 
     /// <summary>
     ///     Whether or not the placed entities on the workbench are valid to use as tools.
