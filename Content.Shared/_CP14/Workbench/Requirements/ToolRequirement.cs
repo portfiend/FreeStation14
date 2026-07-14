@@ -1,5 +1,5 @@
 using Content.Shared._CP14.Workbench.EntitySystems;
-using Content.Shared.Hands.EntitySystems;
+using Content.Shared.Inventory;
 using Content.Shared.Tools;
 using Content.Shared.Tools.Systems;
 using Robust.Shared.Prototypes;
@@ -17,6 +17,13 @@ public sealed partial class ToolRequirement : WorkbenchCraftRequirement
     /// </summary>
     [DataField(required: true)]
     public ProtoId<ToolQualityPrototype> Quality;
+
+    /// <summary>
+    ///     Which inventory slots are valid to search for tools.
+    ///     Hands will always be checked!
+    /// </summary>
+    [DataField]
+    public SlotFlags SlotFlags = SlotFlags.NONE;
 
     /// <summary>
     ///     Whether or not the placed entities on the workbench are valid to use as tools.
@@ -50,10 +57,10 @@ public sealed partial class ToolRequirement : WorkbenchCraftRequirement
             if (toolSystem.HasQuality(context.User.Value, Quality))
                 return true;
 
-            // Search user's hands
-            var handsSystem = entManager.System<SharedHandsSystem>();
-            foreach (var held in handsSystem.EnumerateHeld(context.User.Value))
-                if (toolSystem.HasQuality(held, Quality))
+            // Search user's inventory
+            var inventorySystem = entManager.System<InventorySystem>();
+            foreach (var item in inventorySystem.GetHandOrInventoryEntities(context.User.Value, SlotFlags))
+                if (toolSystem.HasQuality(item, Quality))
                     return true;
         }
 
