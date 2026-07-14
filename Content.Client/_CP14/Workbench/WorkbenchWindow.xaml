@@ -1,7 +1,7 @@
 <DefaultWindow xmlns="https://spacestation14.io"
                xmlns:graphics="clr-namespace:Robust.Client.Graphics;assembly=Robust.Client"
                xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
-               Title="{Loc 'workbench-ui-title'}"
+               Title="{Loc 'workbench-ui-window-title'}"
                SetSize="700 500"
                MinSize="700 300">
     <BoxContainer Orientation="Horizontal">
