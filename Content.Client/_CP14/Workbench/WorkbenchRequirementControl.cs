@@ -4,6 +4,7 @@ using Robust.Client.GameObjects;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.XAML;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Utility;
 
 namespace Content.Client._CP14.Workbench;
 
@@ -25,7 +26,9 @@ public sealed partial class WorkbenchRequirementControl : Control
 
     public WorkbenchRequirementControl(WorkbenchCraftRequirement requirement) : this()
     {
-        Name.Text = requirement.GetRequirementTitle(_proto);
+        var title = new FormattedMessage();
+        title.AddMarkupPermissive(requirement.GetRequirementTitle(_proto));
+        Name.SetMessage(title);
 
         var texture = requirement.GetRequirementTexture(_proto);
         if (texture is not null)

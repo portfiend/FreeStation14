@@ -17,6 +17,6 @@
             HorizontalAlignment="Left"
             Visible="False"
             Stretch="KeepAspectCentered" />
-        <Label Name="Name" />
+        <RichTextLabel Name="Name" />
     </GridContainer>
 </Control>

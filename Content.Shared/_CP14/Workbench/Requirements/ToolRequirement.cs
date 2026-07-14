@@ -73,7 +73,8 @@ public sealed partial class ToolRequirement : WorkbenchCraftRequirement
         if (!protoManager.TryIndex(Quality, out var qualityProto))
             return string.Empty;
 
-        return Loc.GetString("workbench-tool-requirement-hint", ("quality", qualityProto.Name));
+        return Loc.GetString("workbench-tool-requirement-hint",
+            ("quality", Loc.GetString(qualityProto.Name)));
     }
 
     public override SpriteSpecifier? GetRequirementTexture(IPrototypeManager protoManager)

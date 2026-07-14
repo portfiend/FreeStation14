@@ -105,7 +105,7 @@ public sealed partial class MaterialIngredientRequirement : WorkbenchCraftRequir
             return string.Empty;
 
         return Loc.GetString("workbench-material-requirement-hint",
-            ("ingredient", indexedMaterial.Name),
+            ("ingredient", Loc.GetString(indexedMaterial.Name)),
             ("count", Count));
     }
 
