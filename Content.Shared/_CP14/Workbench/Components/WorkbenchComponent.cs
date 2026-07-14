@@ -2,6 +2,7 @@ using Content.Shared._CP14.Workbench.EntitySystems;
 using Content.Shared._CP14.Workbench.Prototypes;
 using Content.Shared.Tag;
 using Robust.Shared.Audio;
+using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 
 namespace Content.Shared._CP14.Workbench;
@@ -10,6 +11,7 @@ namespace Content.Shared._CP14.Workbench;
 /// This entity can be used to craft other objects through the interface
 /// </summary>
 [RegisterComponent]
+[NetworkedComponent, AutoGenerateComponentState]
 [Access(typeof(SharedWorkbenchSystem))]
 public sealed partial class WorkbenchComponent : Component
 {
@@ -22,7 +24,7 @@ public sealed partial class WorkbenchComponent : Component
     /// <summary>
     /// List of recipes available for crafting on this type of workbench
     /// </summary>
-    [DataField]
+    [DataField, AutoNetworkedField]
     public List<ProtoId<WorkbenchRecipePrototype>> Recipes = new();
 
     /// <summary>

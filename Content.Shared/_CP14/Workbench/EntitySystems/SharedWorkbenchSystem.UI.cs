@@ -1,3 +1,4 @@
+using System.Linq;
 using Content.Shared._CP14.Workbench;
 
 namespace Content.Shared._CP14.Workbench.EntitySystems;
@@ -15,35 +16,6 @@ public abstract partial class SharedWorkbenchSystem
         StartCraft(entity, args.Actor, prototype);
     }
 
-    private void UpdateUIRecipes(Entity<WorkbenchComponent> entity)
-    {
-        var getResource = new WorkbenchGetResourcesEvent();
-        RaiseLocalEvent(entity, getResource);
-
-        var resources = getResource.Resources;
-
-        var recipes = new List<WorkbenchUiRecipesEntry>();
-        foreach (var recipeId in entity.Comp.Recipes)
-        {
-            if (!ProtoMan.TryIndex(recipeId, out var indexedRecipe))
-                continue;
-
-            var canCraft = true;
-
-            foreach (var requirement in indexedRecipe.Requirements)
-            {
-                if (!requirement.CheckRequirement(EntityManager, ProtoMan, resources))
-                {
-                    canCraft = false;
-                    break;
-                }
-            }
-
-            var entry = new WorkbenchUiRecipesEntry(recipeId, canCraft);
-
-            recipes.Add(entry);
-        }
-
-        _userInterface.SetUiState(entity.Owner, WorkbenchUiKey.Key, new WorkbenchUiRecipesState(recipes));
-    }
+    protected virtual void UpdateUIRecipes(Entity<WorkbenchComponent> entity)
+    { }
 }

@@ -4,11 +4,13 @@ using Content.Shared._CP14.Workbench.Prototypes;
 using Content.Shared.DoAfter;
 using Content.Shared.Placeable;
 using Content.Shared.Popups;
+using Content.Shared.Random.Helpers;
 using Content.Shared.UserInterface;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Serialization;
+using Robust.Shared.Timing;
 
 namespace Content.Shared._CP14.Workbench.EntitySystems;
 
@@ -23,9 +25,7 @@ public abstract partial class SharedWorkbenchSystem : EntitySystem
     [Dependency] private SharedAudioSystem _audio = default!;
     [Dependency] private SharedDoAfterSystem _doAfter = default!;
     [Dependency] private SharedPopupSystem _popup = default!;
-    [Dependency] private SharedUserInterfaceSystem _userInterface = default!;
-    [Dependency] private SharedTransformSystem _transform = default!;
-    [Dependency] private IRobustRandom _random = default!;
+    [Dependency] private IGameTiming _timing = default!;
 
     public override void Initialize()
     {
@@ -55,6 +55,8 @@ public abstract partial class SharedWorkbenchSystem : EntitySystem
 
             ent.Comp.Recipes.Add(recipe);
         }
+
+        Dirty(ent);
     }
 
     private void OnItemRemoved(Entity<WorkbenchComponent> ent, ref ItemRemovedEvent args)
@@ -105,7 +107,7 @@ public abstract partial class SharedWorkbenchSystem : EntitySystem
         };
 
         _doAfter.TryStartDoAfter(doAfterArgs);
-        _audio.PlayPvs(recipe.OverrideCraftSound ?? workbench.Comp.CraftSound, workbench);
+        _audio.PlayPredicted(recipe.OverrideCraftSound ?? workbench.Comp.CraftSound, workbench, user);
     }
 
     private void OnCraftFinished(Entity<WorkbenchComponent> ent, ref WorkbenchCraftDoAfterEvent args)
@@ -123,13 +125,14 @@ public abstract partial class SharedWorkbenchSystem : EntitySystem
             Workbench: ent.Owner,
             Ingredients: getResource.Resources.ToArray());
 
+        // Check requirements
         if (!CanCraftRecipe(recipe, context))
         {
-            _popup.PopupEntity(Loc.GetString("workbench-cant-craft-error"), ent, args.User);
+            _popup.PopupPredicted(Loc.GetString("workbench-cant-craft-error"), ent, args.User);
             return;
         }
 
-        //Check conditions
+        // Check conditions
         var passConditions = true;
         foreach (var condition in recipe.Conditions)
         {
@@ -138,31 +141,26 @@ public abstract partial class SharedWorkbenchSystem : EntitySystem
                 condition.FailedEffect(EntityManager, ProtoMan, context);
                 passConditions = false;
             }
+
             condition.PostCraft(EntityManager, ProtoMan, context);
         }
 
+        // Perform post-craft requirement effects (e.g. spending resources)
         foreach (var req in recipe.Requirements)
-        {
             req.PostCraft(EntityManager, ProtoMan, context);
-        }
 
+        // Spawn entities, if all conditions are right
         if (passConditions)
         {
+            var random = SharedRandomExtensions.PredictedRandom(_timing, GetNetEntity(ent.Owner));
+            var coords = Transform(ent).Coordinates;
             var resultEntities = new HashSet<EntityUid>();
+
             for (var i = 0; i < recipe.ResultCount; i++)
             {
-                var resultEntity = Spawn(recipe.Result);
+                var offset = new Vector2(random.NextFloat(-0.25f, 0.25f), random.NextFloat(-0.25f, 0.25f));
+                var resultEntity = PredictedSpawnAtPosition(recipe.Result, coords.Offset(offset));
                 resultEntities.Add(resultEntity);
-            }
-
-            //We teleport result to workbench AFTER craft.
-            foreach (var resultEntity in resultEntities)
-            {
-                var coords = Transform(ent).Coordinates;
-                var offset = new Vector2(_random.NextFloat(-0.25f, 0.25f),
-                    _random.NextFloat(-0.25f, 0.25f));
-
-                _transform.SetCoordinates(resultEntity, coords.Offset(offset));
             }
         }
 
