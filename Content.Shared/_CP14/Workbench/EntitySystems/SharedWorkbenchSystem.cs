@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Numerics;
 using Content.Shared._CP14.Workbench.Prototypes;
 using Content.Shared.DoAfter;
@@ -120,7 +121,7 @@ public abstract partial class SharedWorkbenchSystem : EntitySystem
 
         var context = new WorkbenchCraftingContext(User: args.User,
             Workbench: ent.Owner,
-            Ingredients: getResource.Resources);
+            Ingredients: getResource.Resources.ToArray());
 
         if (!CanCraftRecipe(recipe, context))
         {
@@ -188,7 +189,7 @@ public sealed partial class WorkbenchCraftDoAfterEvent : DoAfterEvent
 /// <summary>
 ///     A list of shared parameters for methods involving workbench crafting.
 /// </summary>
-public record WorkbenchCraftingContext(EntityUid? User, EntityUid Workbench, HashSet<EntityUid> Ingredients)
+public record WorkbenchCraftingContext(EntityUid? User, EntityUid Workbench, EntityUid[] Ingredients)
 {
     /// <summary>
     ///     The entity initiating this craft operation.
@@ -203,5 +204,5 @@ public record WorkbenchCraftingContext(EntityUid? User, EntityUid Workbench, Has
     /// <summary>
     ///     A list of valid, usable crafting ingredients.
     /// </summary>
-    public HashSet<EntityUid> Ingredients = Ingredients;
+    public EntityUid[] Ingredients = Ingredients;
 }

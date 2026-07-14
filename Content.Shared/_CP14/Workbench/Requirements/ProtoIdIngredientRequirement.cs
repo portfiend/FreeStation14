@@ -68,7 +68,7 @@ public sealed partial class ProtoIdIngredientRequirement : WorkbenchCraftRequire
         return indexedProto;
     }
 
-    private Dictionary<EntProtoId, int> IndexIngredients(IEntityManager entManager, HashSet<EntityUid> ingredients)
+    private Dictionary<EntProtoId, int> IndexIngredients(IEntityManager entManager, EntityUid[] ingredients)
     {
         var indexedIngredients = new Dictionary<EntProtoId, int>();
 
