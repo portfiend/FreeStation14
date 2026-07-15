@@ -111,7 +111,7 @@ public sealed partial class WorkbenchWindow : DefaultWindow
             if (!ProcessSearchCategoryFilter(indexedEntry))
                 continue;
 
-            var control = new WorkbenchRecipeControl(entry);
+            var control = new WorkbenchRecipeButton(entry);
             control.OnSelect += RecipeSelect;
 
             gridContainer.AddChild(control);
