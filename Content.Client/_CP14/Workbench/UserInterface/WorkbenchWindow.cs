@@ -257,11 +257,7 @@ public sealed partial class WorkbenchWindow : DefaultWindow
         _selectedEntry = entry;
 
         ResultInfo.SetPrototype(recipe);
-        ItemRequirements.RemoveAllChildren();
-
-        foreach (var requirement in recipe.Requirements)
-            ItemRequirements.AddChild(new WorkbenchRequirementControl(requirement));
-
+        RecipeRequirementsList.SetRequirements(recipe);
         CraftButton.Disabled = !entry.Craftable;
     }
 
@@ -270,7 +266,7 @@ public sealed partial class WorkbenchWindow : DefaultWindow
         _selectedEntry = null;
 
         ResultInfo.SetPrototype(null);
-        ItemRequirements.RemoveAllChildren();
+        RecipeRequirementsList.SetRequirements(null);
         CraftButton.Disabled = true;
     }
 

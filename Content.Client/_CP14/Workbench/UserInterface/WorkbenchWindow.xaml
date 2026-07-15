@@ -7,10 +7,10 @@
                MinSize="700 300">
     <BoxContainer Orientation="Vertical" SeparationOverride="6">
         <!-- Topbar -->
-        <BoxContainer Orientation="Horizontal" HorizontalExpand="True">
+        <BoxContainer Orientation="Horizontal" HorizontalExpand="True" SeparationOverride="5">
             <!-- Search Bar -->
-            <LineEdit Name="SearchBar" PlaceHolder="Search" HorizontalExpand="True" />
-            <OptionButton Name="OptionCategories" Access="Public" MinSize="130 0" />
+            <LineEdit Name="SearchBar" PlaceHolder="Search" HorizontalExpand="True" SizeFlagsStretchRatio="3" />
+            <OptionButton Name="OptionCategories" HorizontalExpand="True" Access="Public" />
         </BoxContainer>
 
         <!-- Main -->
@@ -31,41 +31,23 @@
             </BoxContainer>
 
             <!-- Craft view (right side UI) -->
-            <BoxContainer MinWidth="350"
+            <BoxContainer
                 Orientation="Vertical"
                 HorizontalExpand="True"
                 VerticalExpand="True">
                 <ScrollContainer VerticalExpand="True" HScrollEnabled="False">
-                    <PanelContainer
-                        StyleIdentifier="WorkbenchRequirementList"
-                        HorizontalExpand="True"
-                        VerticalExpand="True">
-                        <!-- Content -->
-                        <BoxContainer HorizontalExpand="True" VerticalExpand="True" Orientation="Vertical">
-                            <!-- Item info -->
-                            <workbench:WorkbenchRecipeResultInfo Name="ResultInfo"/>
-
-                            <controls:HLine Color="#404040" Thickness="2" Margin="0 5" />
-
-                            <!-- Required title -->
-                            <Label Margin="5 0 0 0" Text="{Loc 'workbench-ui-requirement-list-header'}" />
-
-                            <!-- Craft requirements content -->
-                            <!-- Added by code -->
-                            <BoxContainer
-                                Margin="5 0 0 0"
-                                Name="ItemRequirements"
-                                Orientation="Vertical" VerticalExpand="True"
-                                HorizontalExpand="True" />
-
-                            <controls:HLine Color="#404040" Thickness="5" Margin="0 5" />
-
-                            <!-- Craft button -->
-                            <Button Name="CraftButton" Disabled="True" Text="{Loc 'workbench-ui-craft-button'}" />
-                        </BoxContainer>
-                    </PanelContainer>
+                    <BoxContainer HorizontalExpand="True"
+                        VerticalExpand="True"
+                        Orientation="Vertical"
+                        SeparationOverride="5">
+                        <workbench:WorkbenchRecipeResultInfo Name="ResultInfo"/>
+                        <workbench:WorkbenchRecipeRequirementsList Name="RecipeRequirementsList"
+                            VerticalExpand="True" />
+                        <Button Name="CraftButton" Disabled="True" Text="{Loc 'workbench-ui-craft-button'}" />
+                    </BoxContainer>
                 </ScrollContainer>
             </BoxContainer>
+
         </BoxContainer>
     </BoxContainer>
 </DefaultWindow>

@@ -1,6 +1,6 @@
 workbench-ui-window-title = Workbench
 workbench-ui-craft-button = Craft
-workbench-ui-requirement-list-header = Requirements
+workbench-ui-requirement-list-header = Requirements:
 workbench-ui-result-name = {$result}{$count ->
         [1] {""}
        *[other] {" "}x{$count}
