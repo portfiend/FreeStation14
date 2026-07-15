@@ -256,20 +256,11 @@ public sealed partial class WorkbenchWindow : DefaultWindow
     {
         _selectedEntry = entry;
 
-        var result = _prototype.Index(recipe.Result);
-
-        // TODO: Make it through the localization?
-        var counter = recipe.ResultCount > 1 ? $" x{recipe.ResultCount}" : string.Empty;
-
-        ItemView.SetPrototype(recipe.Result);
-        ItemName.Text = result.Name + counter;
-        ItemDescription.Text = result.Description;
+        ResultInfo.SetPrototype(recipe);
         ItemRequirements.RemoveAllChildren();
 
         foreach (var requirement in recipe.Requirements)
-        {
             ItemRequirements.AddChild(new WorkbenchRequirementControl(requirement));
-        }
 
         CraftButton.Disabled = !entry.Craftable;
     }
@@ -278,9 +269,7 @@ public sealed partial class WorkbenchWindow : DefaultWindow
     {
         _selectedEntry = null;
 
-        ItemView.SetPrototype(null);
-        ItemName.Text = string.Empty;
-        ItemDescription.Text = string.Empty;
+        ResultInfo.SetPrototype(null);
         ItemRequirements.RemoveAllChildren();
         CraftButton.Disabled = true;
     }
