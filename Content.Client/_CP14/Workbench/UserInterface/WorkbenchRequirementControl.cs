@@ -6,7 +6,7 @@ using Robust.Client.UserInterface.XAML;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
 
-namespace Content.Client._CP14.Workbench;
+namespace Content.Client._CP14.Workbench.UserInterface;
 
 [GenerateTypedNameReferences]
 public sealed partial class WorkbenchRequirementControl : Control

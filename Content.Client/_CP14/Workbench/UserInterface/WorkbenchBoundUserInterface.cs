@@ -6,7 +6,7 @@ using Robust.Client.Player;
 using Robust.Client.UserInterface;
 using Robust.Shared.Prototypes;
 
-namespace Content.Client._CP14.Workbench;
+namespace Content.Client._CP14.Workbench.UserInterface;
 
 public sealed partial class WorkbenchBoundUserInterface : BoundUserInterface
 {

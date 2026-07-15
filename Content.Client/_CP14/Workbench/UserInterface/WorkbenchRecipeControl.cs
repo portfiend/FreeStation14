@@ -5,12 +5,11 @@ using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.XAML;
 using Robust.Shared.Prototypes;
 
-namespace Content.Client._CP14.Workbench;
+namespace Content.Client._CP14.Workbench.UserInterface;
 
 [GenerateTypedNameReferences]
 public sealed partial class WorkbenchRecipeControl : Control
 {
-    [Dependency] private IEntityManager _entity = default!;
     [Dependency] private IPrototypeManager _prototype = default!;
 
     public event Action<WorkbenchUiRecipesEntry, WorkbenchRecipePrototype>? OnSelect;
@@ -35,9 +34,7 @@ public sealed partial class WorkbenchRecipeControl : Control
     private void UpdateColor()
     {
         if (_craftable)
-            return;
-
-        Button.ModulateSelfOverride = Color.FromHex("#302622");
+            Button.ModulateSelfOverride = Color.FromHex("#302622");
     }
 
     private void UpdateView()

@@ -8,7 +8,7 @@ using Robust.Client.UserInterface.CustomControls;
 using Robust.Client.UserInterface.XAML;
 using Robust.Shared.Prototypes;
 
-namespace Content.Client._CP14.Workbench;
+namespace Content.Client._CP14.Workbench.UserInterface;
 
 [GenerateTypedNameReferences]
 public sealed partial class WorkbenchWindow : DefaultWindow
