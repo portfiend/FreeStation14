@@ -1,8 +1,7 @@
 - type: entity
   parent:
   - BaseStructure
-  id: CP14BaseWorkbench
-  categories: [ ForkFiltered ]
+  id: BaseWorkbench
   abstract: true
   components:
   - type: Sprite
@@ -13,18 +12,18 @@
     sprite: _CP14/Structures/Furniture/workbench.rsi
     state: filler
   - type: ActivatableUI
-    key: enum.CP14WorkbenchUiKey.Key
+    key: enum.WorkbenchUiKey.Key
     requiresComplex: true
     singleUser: true
   - type: Climbable
   - type: Clickable
-  - type: CP14Workbench
+  - type: Workbench
     craftSpeed: 1
   - type: InteractionOutline
   - type: UserInterface
     interfaces:
-      enum.CP14WorkbenchUiKey.Key:
-        type: CP14WorkbenchBoundUserInterface
+      enum.WorkbenchUiKey.Key:
+        type: WorkbenchBoundUserInterface
   - type: Destructible
     thresholds:
     - trigger:
@@ -47,7 +46,7 @@
         sound:
           collection: WoodDestroy
   - type: PlaceableSurface
-  - type: CP14WorkbenchPlaceableProvider
+  - type: WorkbenchPlaceableProvider
   - type: ItemPlacer
     maxEntities: 0
   - type: Fixtures
@@ -75,8 +74,8 @@
 
 - type: entity
   parent:
-  - CP14BaseWorkbench
-  id: CP14Workbench
+  - BaseWorkbench
+  id: Workbench
   name: workbench
   description: Table for the production of various basic tools.
   components:
@@ -87,14 +86,14 @@
   - type: FootstepModifier
     footstepSoundCollection:
       collection: FootstepWood
-  - type: CP14Workbench
+  - type: Workbench
     recipeTags:
-    - CP14RecipeWorkbench
+    - RecipeWorkbench
 
 - type: entity
-  id: CP14WorkbenchCooking
+  id: WorkbenchCooking
   parent:
-  - CP14BaseWorkbench
+  - BaseWorkbench
   name: cooking table
   suffix: Workbench
   description: A table to work with food. Time to cook!
@@ -103,38 +102,6 @@
     state: cooking_table
   - type: Icon
     state: cooking_table
-  - type: CP14Workbench
+  - type: Workbench
     recipeTags:
-    - CP14RecipeCooking
-
-- type: entity
-  id: CP14WorkbenchSewing
-  parent:
-  - CP14BaseWorkbench
-  name: sewing table
-  suffix: Clothing Workbench
-  description: A table with embroidery tools to create different clothing and materials.
-  components:
-  - type: Sprite
-    state: sewing_table
-  - type: Icon
-    state: sewing_table
-  - type: CP14Workbench
-    recipeTags:
-    - CP14RecipeSewing
-
-- type: entity
-  id: CP14WorkbenchLeather
-  parent:
-  - CP14BaseWorkbench
-  name: tanner table
-  suffix: Leather Workbench
-  description: Table for leather processing and creation of leather goods.
-  components:
-  - type: Sprite
-    state: tanner_table
-  - type: Icon
-    state: tanner_table
-  - type: CP14Workbench
-    recipeTags:
-    - CP14RecipeLeatherWorking
+    - RecipeCooking
