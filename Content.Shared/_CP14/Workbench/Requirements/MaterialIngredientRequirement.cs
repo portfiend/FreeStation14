@@ -80,7 +80,7 @@ public sealed partial class MaterialIngredientRequirement : WorkbenchCraftRequir
                 {
                     var value = (int)MathF.Min(requiredCount, mat.Value);
                     requiredCount -= value;
-                    entManager.DeleteEntity(placedEntity);
+                    entManager.PredictedDeleteEntity(placedEntity);
                 }
                 else
                 {
@@ -89,7 +89,7 @@ public sealed partial class MaterialIngredientRequirement : WorkbenchCraftRequir
                     var newStackCount = (int)MathF.Ceiling((materialValue - countToRemove) / (float)mat.Value);
 
                     if (newStackCount <= 0)
-                        entManager.DeleteEntity(placedEntity);
+                        entManager.PredictedDeleteEntity(placedEntity);
                     else
                         stackSystem.SetCount((placedEntity, stack), newStackCount);
 

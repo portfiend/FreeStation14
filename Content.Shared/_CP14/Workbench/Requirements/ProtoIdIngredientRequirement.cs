@@ -48,7 +48,7 @@ public sealed partial class ProtoIdIngredientRequirement : WorkbenchCraftRequire
                 continue;
 
             requiredCount--;
-            entManager.DeleteEntity(placedEntity);
+            entManager.PredictedDeleteEntity(placedEntity);
         }
     }
 

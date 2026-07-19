@@ -62,7 +62,7 @@ public sealed partial class StackIngredientRequirement : WorkbenchCraftRequireme
             var count = (int)MathF.Min(requiredCount, stack.Count);
 
             if (stack.Count - count <= 0)
-                entManager.DeleteEntity(placedEntity);
+                entManager.PredictedDeleteEntity(placedEntity);
             else
                 stackSystem.SetCount((placedEntity, stack), stack.Count - count);
 
