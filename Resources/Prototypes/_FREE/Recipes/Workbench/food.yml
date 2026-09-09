@@ -1,0 +1,409 @@
+- type: workbenchRecipeCategory
+  id: Cakes
+  name: workbench-category-cakes
+  priority: -1
+
+- type: workbenchRecipeCategory
+  id: Salads
+  name: workbench-category-salads
+  priority: -2
+
+- type: workbenchRecipe
+  id: FoodCroissantRaw
+  tag: RecipeCooking
+  craftTime: 2
+  requirements:
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodDoughSlice
+    count: 1
+  - !type:ToolRequirement
+    quality: Rolling
+  result: FoodCroissantRaw
+
+- type: workbenchRecipe
+  id: FoodDoughPastryBaseRaw
+  tag: RecipeCooking
+  craftTime: 2
+  requirements:
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodDoughSlice
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodButterSlice
+    count: 1
+  - !type:ToolRequirement
+    quality: Rolling
+  result: FoodDoughPastryBaseRaw
+
+# Cakes
+
+- type: workbenchRecipe
+  id: FoodCakeApple
+  tag: RecipeCooking
+  category: Cakes
+  craftTime: 2
+  requirements:
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodCakePlain
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodApple
+    count: 3
+  result: FoodCakeApple
+
+- type: workbenchRecipe
+  id: FoodCakeCarrot
+  tag: RecipeCooking
+  category: Cakes
+  craftTime: 2
+  requirements:
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodCakePlain
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodCarrot
+    count: 2
+  result: FoodCakeCarrot
+
+- type: workbenchRecipe
+  id: FoodCakeLemon
+  tag: RecipeCooking
+  category: Cakes
+  craftTime: 2
+  requirements:
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodCakePlain
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodLemon
+    count: 2
+  result: FoodCakeLemon
+
+- type: workbenchRecipe
+  id: FoodCakeLemoon
+  tag: RecipeCooking
+  category: Cakes
+  craftTime: 2
+  requirements:
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodCakePlain
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodLemoon
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodBerries
+    count: 1
+  result: FoodCakeLemoon
+
+- type: workbenchRecipe
+  id: FoodCakeOrange
+  tag: RecipeCooking
+  category: Cakes
+  craftTime: 2
+  requirements:
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodCakePlain
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodOrange
+    count: 3
+  result: FoodCakeOrange
+
+- type: workbenchRecipe
+  id: FoodCakeBlueberry
+  tag: RecipeCooking
+  category: Cakes
+  craftTime: 2
+  requirements:
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodCakePlain
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodBerries
+    count: 3
+  result: FoodCakeBlueberry
+
+- type: workbenchRecipe
+  id: FoodCakeLime
+  tag: RecipeCooking
+  category: Cakes
+  craftTime: 2
+  requirements:
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodCakePlain
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodLime
+    count: 3
+  result: FoodCakeLime
+
+- type: workbenchRecipe
+  id: FoodCakeCheese
+  tag: RecipeCooking
+  category: Cakes
+  craftTime: 2
+  requirements:
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodCakePlain
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodCheeseSlice
+    count: 3
+  - !type:SolutionIngredientRequirement
+    reagent: Cream
+    amount: 10
+  result: FoodCakeCheese
+
+- type: workbenchRecipe
+  id: FoodCakePumpkin
+  tag: RecipeCooking
+  category: Cakes
+  craftTime: 2
+  requirements:
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodCakePlain
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodPumpkin
+    count: 1
+  result: FoodCakePumpkin
+
+- type: workbenchRecipe
+  id: FoodCakeClown
+  tag: RecipeCooking
+  category: Cakes
+  craftTime: 2
+  requirements:
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodCakePlain
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: ClothingMaskClown
+    count: 1
+  result: FoodCakeClown
+
+- type: workbenchRecipe
+  id: FoodCakeBirthday
+  tag: RecipeCooking
+  category: Cakes
+  craftTime: 2
+  requirements:
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodCakePlain
+    count: 1
+  - !type:SolutionIngredientRequirement
+    reagent: Cream
+    amount: 5
+  result: FoodCakeBirthday
+
+- type: workbenchRecipe
+  id: FoodCakeChocolate
+  tag: RecipeCooking
+  category: Cakes
+  craftTime: 2
+  requirements:
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodCakePlain
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodSnackChocolateBar
+    count: 2
+  result: FoodCakeChocolate
+
+# Salads
+
+- type: workbenchRecipe
+  id: FoodSaladHerb
+  tag: RecipeCooking
+  category: Salads
+  craftTime: 2
+  requirements:
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodBowlBig
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodAmbrosiaVulgaris
+    count: 3
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodApple
+    count: 1
+  result: FoodSaladHerb
+
+- type: workbenchRecipe
+  id: FoodSaladValid
+  tag: RecipeCooking
+  category: Salads
+  craftTime: 2
+  requirements:
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodBowlBig
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodAmbrosiaVulgaris
+    count: 2
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodApple
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodMeatMeatball
+    count: 1
+  result: FoodSaladValid
+
+- type: workbenchRecipe
+  id: FoodSaladColeslaw
+  tag: RecipeCooking
+  category: Salads
+  craftTime: 2
+  requirements:
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodBowlBig
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodOnionRed
+    count: 2
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodCabbage
+    count: 2
+  - !type:SolutionIngredientRequirement
+    reagent: Vinaigrette
+    amount: 5
+  result: FoodSaladColeslaw
+
+- type: workbenchRecipe
+  id: FoodSaladCaesar
+  tag: RecipeCooking
+  category: Salads
+  craftTime: 2
+  requirements:
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodBowlBig
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodOnionRedSlice
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodBreadPlainSlice
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodCabbage
+    count: 1
+  - !type:SolutionIngredientRequirement
+    reagent: OilOlive
+    amount: 5
+  result: FoodSaladCaesar
+
+- type: workbenchRecipe
+  id: FoodSaladCitrus
+  tag: RecipeCooking
+  category: Salads
+  craftTime: 2
+  requirements:
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodBowlBig
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodOrange
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodLemon
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodLime
+    count: 1
+  result: FoodSaladCitrus
+
+- type: workbenchRecipe
+  id: FoodSaladKimchi
+  tag: RecipeCooking
+  category: Salads
+  craftTime: 2
+  requirements:
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodBowlBig
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodCarrot
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodCabbage
+    count: 2
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodGarlic
+    count: 1
+  - !type:SolutionIngredientRequirement
+    reagent: Vinegar
+    amount: 5
+  result: FoodSaladKimchi
+
+- type: workbenchRecipe
+  id: FoodSaladFruit
+  tag: RecipeCooking
+  category: Salads
+  craftTime: 2
+  requirements:
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodBowlBig
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodOrange
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodApple
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodGrape
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodWatermelonSlice
+    count: 1
+  result: FoodSaladFruit
+
+- type: workbenchRecipe
+  id: FoodSaladJungle
+  tag: RecipeCooking
+  category: Salads
+  craftTime: 2
+  requirements:
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodBowlBig
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodBanana
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodApple
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodGrape
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodWatermelonSlice
+    count: 1
+  result: FoodSaladJungle
+
+- type: workbenchRecipe
+  id: FoodSaladWatermelonFruitBowl
+  tag: RecipeCooking
+  category: Salads
+  craftTime: 2
+  requirements:
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodBowlBig
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodApple
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodBanana
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodLemon
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodOrange
+    count: 1
+  - !type:ProtoIdIngredientRequirement
+    protoId: FoodAmbrosiaVulgaris
+    count: 1
+  result: FoodSaladWatermelonFruitBowl
