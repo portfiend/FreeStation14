@@ -1,0 +1,12 @@
+<PanelContainer xmlns="https://spacestation14.io"
+    StyleIdentifier="WorkbenchRequirementList">
+    <BoxContainer Orientation="Vertical" SeparationOverride="4" Margin="4">
+        <Label StyleIdentifier="WorkbenchRequirementHeader"
+            Text="{Loc 'workbench-ui-requirement-list-header'}" />
+
+        <BoxContainer Name="RequirementListBox"
+            Orientation="Vertical"
+            HorizontalExpand="True"
+            VerticalExpand="True" />
+    </BoxContainer>
+</PanelContainer>

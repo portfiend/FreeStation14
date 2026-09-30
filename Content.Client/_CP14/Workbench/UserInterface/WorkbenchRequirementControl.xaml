@@ -1,0 +1,18 @@
+﻿<Control xmlns="https://spacestation14.io">
+    <GridContainer Columns="2" Margin="8 0 0 0">
+        <EntityPrototypeView
+            Name="EntityView"
+            MaxSize="32 32"
+            Scale="2,2"
+            HorizontalAlignment="Left"
+            Visible="False"
+            VerticalExpand="True" />
+        <TextureRect
+            Name="View"
+            MaxSize="32 32"
+            HorizontalAlignment="Left"
+            Visible="False"
+            Stretch="KeepAspectCentered" />
+        <RichTextLabel Name="NameLabel" />
+    </GridContainer>
+</Control>

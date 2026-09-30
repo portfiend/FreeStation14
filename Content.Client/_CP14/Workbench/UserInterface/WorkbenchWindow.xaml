@@ -1,0 +1,53 @@
+<DefaultWindow xmlns="https://spacestation14.io"
+               xmlns:graphics="clr-namespace:Robust.Client.Graphics;assembly=Robust.Client"
+               xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
+               xmlns:workbench="clr-namespace:Content.Client._CP14.Workbench.UserInterface"
+               Title="{Loc 'workbench-ui-window-title'}"
+               SetSize="700 500"
+               MinSize="700 300">
+    <BoxContainer Orientation="Vertical" SeparationOverride="6">
+        <!-- Topbar -->
+        <BoxContainer Orientation="Horizontal" HorizontalExpand="True" SeparationOverride="5">
+            <!-- Search Bar -->
+            <LineEdit Name="SearchBar" PlaceHolder="Search" HorizontalExpand="True" SizeFlagsStretchRatio="3" />
+            <OptionButton Name="OptionCategories" HorizontalExpand="True" Access="Public" />
+        </BoxContainer>
+
+        <!-- Main -->
+        <BoxContainer HorizontalExpand="True"
+            VerticalExpand="True"
+            Orientation="Horizontal"
+            SeparationOverride="5">
+            <!-- Product list (left side UI) -->
+            <BoxContainer SetWidth="350"
+                Orientation="Vertical">
+                <!-- Crafts container -->
+                <ScrollContainer
+                    HorizontalExpand="True"
+                    VerticalExpand="True"
+                    HScrollEnabled="False">
+                    <BoxContainer Name="CraftsContainer" Orientation="Vertical" HorizontalExpand="True" VerticalAlignment="Top"/>
+                </ScrollContainer>
+            </BoxContainer>
+
+            <!-- Craft view (right side UI) -->
+            <BoxContainer
+                Orientation="Vertical"
+                HorizontalExpand="True"
+                VerticalExpand="True">
+                <ScrollContainer VerticalExpand="True" HScrollEnabled="False">
+                    <BoxContainer HorizontalExpand="True"
+                        VerticalExpand="True"
+                        Orientation="Vertical"
+                        SeparationOverride="5">
+                        <workbench:WorkbenchRecipeResultInfo Name="ResultInfo"/>
+                        <workbench:WorkbenchRecipeRequirementsList Name="RecipeRequirementsList"
+                            VerticalExpand="True" />
+                        <Button Name="CraftButton" Disabled="True" Text="{Loc 'workbench-ui-craft-button'}" />
+                    </BoxContainer>
+                </ScrollContainer>
+            </BoxContainer>
+
+        </BoxContainer>
+    </BoxContainer>
+</DefaultWindow>
